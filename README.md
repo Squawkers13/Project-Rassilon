@@ -1,8 +1,7 @@
 Project Rassilon
 ================
 
-Become a Timelord and regenerate!
-
+**Become a Time Lord and regenerate!**
 
 This is the official documentation branch, you can check it out at http://squawkers13.github.io/Project-Rassilon/.
 
