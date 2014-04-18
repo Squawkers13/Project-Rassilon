@@ -38,25 +38,36 @@
 
         <h1>Commands</h1>
         <p>
-        There are two commands- <strong>/pr</strong> and <strong>/regen</strong>.
-        Those commands have different sub-commands.
+        There are two commands- <strong>/pr</strong> and <strong>/regen</strong>, each with different sub-commands.
+        </p>
+        
+        <p>
         All commands are <em>case-insensitive</em>.
         </p>
         
         <h2><strong>/pr</strong> - The plugin's base command.</h2>
             <ul>
+                <li><strong>/pr</strong> - View the plugin's version.</li>
                 <li><strong>/pr view [player]</strong> - View a player's regeneration info.</li>
                 <li><strong>/pr set [player] [amount]</strong> - Set a player's regeneration count.</li>
                 <li><strong>/pr force [player]</strong> - Force a player to regenerate.</li>
                 <li><strong>/pr block [player] <true|false></strong> - Set a player's regeneration block status.</li>
                 <li><strong>/pr reload</strong> - Reload the configuration.</li>
-        </ul>
-       <h2>/regen</h2>
-       
-        /regen - View your regeneration info.
-        /regen force - Force regeneration.
-        /regen block <true|false> - Block your next regeneration.
+            </ul>
+            
+       <h2><strong>/regen</strong> -  View and manage regeneration.</h2>
+       <strong>This command can only be used by a player.</strong>
+            <ul>
+                <li><strong>/regen</strong> - View your regeneration info.</li>
+                <li><strong>/regen force</strong> - Force regeneration.</li>
+                <li><strong>/regen block <true|false></strong> - Block your next regeneration.</li>
+            </ul>
+            
+        <p>
+        Both of these commands have in-game help menus.
+        </p>
         
+        <img src="images/commands.png"/>
       </section>
 
     </div>
