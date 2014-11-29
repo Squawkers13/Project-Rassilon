@@ -35,7 +35,7 @@ import org.bukkit.scheduler.BukkitTask;
 import static org.bukkit.Bukkit.getScheduler;
 
 /**
- *
+ * The Regenerator is used to make players regenerate.
  * @author Squawkers13
  */
 public class Regenerator {
@@ -51,9 +51,9 @@ public class Regenerator {
     }
 
     /**
-     *
-     * @param player
-     * @return
+     * Make a player regenerate.
+     * @param player The player who you want to regenerate
+     * @return an integer specifying if the operation was successful, and if not, why
      */
     public int regenerate(Player player) {
         // --- BEGIN REGEN CHECKS ---   

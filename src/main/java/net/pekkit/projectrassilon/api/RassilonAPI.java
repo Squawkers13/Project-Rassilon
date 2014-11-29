@@ -42,12 +42,6 @@ public class RassilonAPI {
     private final TimelordDataManager tdm;
     private final Regenerator tr;
 
-    /**
-     * Creates an instance of the API.
-     *
-     * @param par1 Instance of the main plugin class.
-     * @param par2 Instance of the plugin's data handler.
-     */
     public RassilonAPI(ProjectRassilon par1, RDataHandler par2, RegenManager rm) {
         plugin = par1;
         rdh = par2;
@@ -58,16 +52,16 @@ public class RassilonAPI {
     }
 
     /**
-     *
-     * @return
+     * Fetch an instance of the Timelord Data Manager.
+     * @return the Timelord Data Manager
      */
     public TimelordDataManager getTimelordDataManager() {
         return tdm;
     }
 
     /**
-     *
-     * @return
+     * Fetch an instance of the Regenerator.
+     * @return the Regenerator
      */
     public Regenerator getRegenerator() {
         return tr;

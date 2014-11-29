@@ -27,17 +27,13 @@ import net.pekkit.projectrassilon.data.RDataHandler;
 import org.bukkit.entity.Player;
 
 /**
- *
+ * The Timelord Data Manager is used to fetch crucial data about a Time Lord's physiology.
  * @author Squawkers13
  */
 public class TimelordDataManager {
 
     private final RDataHandler rdh;
 
-    /**
-     *
-     * @param r
-     */
     public TimelordDataManager(RDataHandler r) {
         rdh = r;
     }
