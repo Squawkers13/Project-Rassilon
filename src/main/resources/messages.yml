@@ -1,0 +1,10 @@
+messages:
+    CORRECT_SYNTAX: "&4The correct syntax is:"
+    INVALID_ARGS: "&4Invalid arguments!"
+    INVALID_SUB_CMD: "&cThat is not a valid sub-command!"
+    MUST_BE_PLAYER: "&cYou must be a player to run this command!"
+    NO_PERMS: "&4You do not have permission to do that!"
+    PLAYER_NEVER_JOINED: "&4That player has never joined this server!"
+    PLAYER_NOT_ONLINE: "&4That player is not online!"
+    TOGGLE_WARNING: "&4If no value is specified, the command will toggle the current value."
+    TOO_FEW_ARGS: "&4Too few command arguments!"

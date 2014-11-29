@@ -1,0 +1,85 @@
+name: ProjectRassilon
+main: net.pekkit.projectrassilon.ProjectRassilon
+version: maven-version-number
+description: Become a Time Lord and regenerate!
+author: Squawkers13
+website: http://pekkit.net/
+softdepend: [Vault]
+commands:
+    pr:
+        aliases: [projectrassilon,projrassilon]
+        description: Base command for Project Rassilon.
+        usage: /<command>
+        view:
+            description: View a player's regneration info.
+            permission: projectrassilon.pr.view
+            usage: /<command> view [player]
+        set:
+            description: Set a player's regen count.
+            permission: projectrassilon.pr.set
+            usage: /<command> set [player] [amount]
+        force:
+            description: Force a player to regenerate.
+            permission: projectrassilon.pr.force
+            usage: /<command> force [player]
+        block:
+            description: Set a player's regen block status.
+            permission: projectrassilon.pr.block
+            usage: /<command> block [player] <true|false>
+        reload:
+            description: Reload the configuration .yml files.
+            permission: projectrassilon.pr.reload
+            usage: /<command> reload
+    regen:
+        aliases: [regenerate]
+        description: Become a Timelord and regenerate!
+        permission: projectrassilon.regen.cmd
+        usage: /<command>
+        force:
+            description: Force regeneration.
+            permission: projectrassilon.regen.force
+            usage: /<command> force
+        block:
+            description: Block your next regeneration.
+            permission: projectrassilon.regen.block
+            usage: /<command> block <true|false>
+permissions:
+    projectrassilon.pr.view:
+        description: View a player's regneration info.
+        default: op
+    projectrassilon.pr.set:
+        description: Set a player's regen count.
+        default: op
+    projectrassilon.pr.force:
+        description: Force a player to regenerate.
+        default: op
+    projectrassilon.pr.block:
+        description: Set a player's regen block status.
+        default: op
+    projectrassilon.pr.reload:
+        description: Reload the configuration .yml files.
+        default: op
+    projectrassilon.regen.timelord:
+        description: This player is a Time Lord, and can regenerate on death.
+        default: op
+    projectrassilon.regen.cmd:
+        description: Roleplay command to manage regeneration.
+        default: true
+    projectrassilon.regen.force:
+        description: Allows this player to force regeneration.
+        default: op
+    projectrassilon.regen.block:
+        description: Allows this player to block their next regneration.
+        default: op
+    projectrassilon.signs.create.buy:
+        description: Allows this player to create regeneration "buy" signs.
+        default: op
+    projectrassilon.signs.create.force:
+        description: Allows this player to create regeneration "force" signs.
+        default: op
+    projectrassilon.signs.use.buy:
+        description: Allows this player to use regeneration "buy" signs.
+        default: op
+    projectrassilon.signs.use.force:
+        description: Allows this player to use regeneration "force" signs.
+        default: op
