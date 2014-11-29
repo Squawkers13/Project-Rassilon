@@ -1,0 +1,9 @@
+net.pekkit.projectrassilon.api
+net.pekkit.projectrassilon.commands
+net.pekkit.projectrassilon.data
+net.pekkit.projectrassilon.events
+net.pekkit.projectrassilon.listeners
+net.pekkit.projectrassilon.locale
+net.pekkit.projectrassilon
+net.pekkit.projectrassilon.tasks
+net.pekkit.projectrassilon.util
