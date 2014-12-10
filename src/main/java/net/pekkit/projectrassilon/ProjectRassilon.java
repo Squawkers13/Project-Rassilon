@@ -23,7 +23,6 @@
  */
 package net.pekkit.projectrassilon;
 
-import net.pekkit.projectrassilon.util.Updater;
 import net.pekkit.projectrassilon.api.RassilonAPI;
 import net.pekkit.projectrassilon.commands.BaseCommandExecutor;
 import net.pekkit.projectrassilon.commands.BaseCommandTabCompleter;
@@ -47,9 +46,7 @@ import java.io.IOException;
  * @version 1.3
  */
 public class ProjectRassilon extends JavaPlugin {
-
-    private Updater updater;
-
+    
     private MessageSender ms;
 
     private RDataHandler rdh;
@@ -93,25 +90,7 @@ public class ProjectRassilon extends JavaPlugin {
             }
             saveResource("config.yml", true);
         }
-        /* Disabled for now
-         // --- Updater registration ---
-         if (getConfig().getBoolean("settings.general.auto-update", true)) {
-         updater = new Updater(this, 70977, getFile(), Updater.UpdateType.DEFAULT, true);
-         } else {
-         ms.log("&cAutomatic updating has been disabled!");
-         ms.log("&cThis means the plugin will NOT notify you if there is a new version available!");
-         ms.log("&cMake sure to regularly check for updates at http://dev.bukkit.org/bukkit-plugins/project-rassilon/");
-         }
-         boolean updateavail = false;
-         if (updater.getResult().equals(Updater.UpdateResult.UPDATE_AVAILABLE)
-         && updater.getLatestGameVersion().equalsIgnoreCase(getServer().getVersion())) {
-         updateavail = true;
-
-         ms.log("There is an update available: " + updater.getLatestName());
-         ms.log("Please update the plugin!");
-         }
-
-         */
+       
         getServer().getPluginManager().registerEvents(new PlayerListener(this, rdh, rm, ms), this);
 
         getCommand("pr").setExecutor(new BaseCommandExecutor(this, rdh, rm, ms));
@@ -130,17 +109,6 @@ public class ProjectRassilon extends JavaPlugin {
     @Override
     public void onDisable() {
         //Nothing here right now...
-    }
-
-    /**
-     * Getter method for the updater instance.
-     *
-     * @return updater instance
-     *
-     * @since 1.2
-     */
-    public Updater getUpdater() {
-        return updater;
     }
 
     /**
