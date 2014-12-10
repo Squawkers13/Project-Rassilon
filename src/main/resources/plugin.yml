@@ -3,7 +3,7 @@ main: net.pekkit.projectrassilon.ProjectRassilon
 version: maven-version-number
 description: Become a Time Lord and regenerate!
 author: Squawkers13
-website: http://pekkit.net/
+website: http://www.spigotmc.org/resources/project-rassilon.2051/
 softdepend: [Vault]
 commands:
     pr:
