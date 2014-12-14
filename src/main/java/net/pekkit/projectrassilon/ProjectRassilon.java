@@ -38,6 +38,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import org.mcstats.Metrics;
 
 /**
  * Project Rassilon: Become a Time Lord and regenerate!
@@ -90,6 +91,16 @@ public class ProjectRassilon extends JavaPlugin {
                 MessageSender.logStackTrace(ex);
             }
             saveResource("config.yml", true);
+        }
+        
+        // --- MCStats submission ---
+        if (getConfig().getBoolean("settings.general.stats")) {
+            try {
+                Metrics metrics = new Metrics(this);
+                metrics.start();
+            } catch (IOException e) {
+                // Failed to submit the stats :-(
+            }
         }
        
         getServer().getPluginManager().registerEvents(new PlayerListener(this, rdh, rm, ms), this);

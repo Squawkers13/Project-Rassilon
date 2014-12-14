@@ -1,7 +1,7 @@
 settings:
     # General plugin settings, not much to do here...
     general:
-        # Whether to blah
+        # Whether to anonymously send some trivial data (version, max players, etc) to the MCStats servers.
         stats: true
     # Regeneration settings. LOOK HERE FIRST!!!
     regen:
