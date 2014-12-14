@@ -87,7 +87,7 @@ public class PlayerListener implements Listener {
                         return;
                     }
                     if (player.getLocation().getY() <= 0) { //In the void
-                        ms.sendMsg(player, "&4You cannot regenerate in the void!");
+                        MessageSender.sendMsg(player, "&4You cannot regenerate in the void!");
                         return;
                     }
 
@@ -140,7 +140,7 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
         if (rdh.getPlayerRegenStatus(event.getPlayer().getUniqueId())) {
-            ms.sendMsg(event.getPlayer(), "&6You are currently regenerating.");
+            MessageSender.sendMsg(event.getPlayer(), "&6You are currently regenerating.");
         }
     }
 }

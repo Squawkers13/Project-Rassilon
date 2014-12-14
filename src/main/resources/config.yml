@@ -1,9 +1,8 @@
 settings:
     # General plugin settings, not much to do here...
     general:
-        # Enables automatic updating and update checking.
-        # It is recommended you don't change this!
-        auto-update: true
+        # Whether to blah
+        stats: true
     # Regeneration settings. LOOK HERE FIRST!!!
     regen:
         # The number of times a player can regenerate.
@@ -11,7 +10,7 @@ settings:
         count: 12
     # DO NOT TOUCH THIS!!!
     # This is essential to the survival of your configuration settings!
-    config-version: 2
+    config-version: 2.5
             
     
         

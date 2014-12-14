@@ -99,8 +99,8 @@ public class RegenManager {
             player.removePotionEffect(effect.getType());
         }
 
-        ms.sendMsg(player, "&6You have regenerated");
-        ms.log(player.getName() + " has regenerated");
+        MessageSender.sendMsg(player, "&6You have regenerated");
+        MessageSender.log(player.getName() + " has regenerated");
 
         int regen = rdh.getPlayerRegenCount(player.getUniqueId()) - 1;
 

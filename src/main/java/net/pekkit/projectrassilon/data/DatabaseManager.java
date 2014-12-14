@@ -59,14 +59,14 @@ public class DatabaseManager {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
-            ms.logStackTrace(e);
+            MessageSender.logStackTrace(e);
         }
 
         try {
             dbPath = "jdbc:sqlite:" + plugin.getDataFolder() + File.separator + "ProjectRassilon.db";
             connection = DriverManager.getConnection(dbPath);
         } catch (SQLException ex) {
-            ms.logStackTrace(ex);
+            MessageSender.logStackTrace(ex);
         }
 
     }
@@ -109,7 +109,7 @@ public class DatabaseManager {
 
             return var;
         } catch (SQLException ex) {
-            ms.logStackTrace(ex);
+            MessageSender.logStackTrace(ex);
             return -1;
         }
     }
@@ -127,7 +127,7 @@ public class DatabaseManager {
 
             statement.close();
         } catch (SQLException ex) {
-            ms.logStackTrace(ex);
+            MessageSender.logStackTrace(ex);
         }
     }
 
@@ -153,7 +153,7 @@ public class DatabaseManager {
 
             return UUID == null;
         } catch (SQLException ex) {
-            ms.log("Exception: " + ex.getLocalizedMessage());
+            MessageSender.log("Exception: " + ex.getLocalizedMessage());
             //ms.logStackTrace(ex);
             return true;
         }

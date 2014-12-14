@@ -37,13 +37,6 @@ import static org.bukkit.ChatColor.translateAlternateColorCodes;
 public class MessageSender {
 
     /**
-     *
-     */
-    public MessageSender() {
-
-    }
-
-    /**
      * Plugin method to easily send messages to players (and console too). This
      * is the core of all the sender methods included here.
      *
@@ -53,7 +46,7 @@ public class MessageSender {
      *
      * @since 1.2.2
      */
-    public void sendMsg(CommandSender sender, String msg, boolean pagination) {
+    public static void sendMsg(CommandSender sender, String msg, boolean pagination) {
         String message = translateAlternateColorCodes('&', msg);
         if (message.length() > ChatPaginator.GUARANTEED_NO_WRAP_CHAT_PAGE_WIDTH && pagination) {
             String[] multiline = ChatPaginator.wordWrap(message, ChatPaginator.GUARANTEED_NO_WRAP_CHAT_PAGE_WIDTH);
@@ -72,7 +65,7 @@ public class MessageSender {
      *
      * @since 1.2.2
      */
-    public void sendMsg(CommandSender sender, String msg) {
+    public static void sendMsg(CommandSender sender, String msg) {
         sendMsg(sender, msg, true);
     }
 
@@ -88,7 +81,7 @@ public class MessageSender {
      *
      * @since 1.2
      */
-    public void sendPluginMsg(CommandSender sender, String msg, boolean pagination) {
+    public static void sendPluginMsg(CommandSender sender, String msg, boolean pagination) {
         sendMsg(sender, "&f[&cProjectRassilon&f] " + msg, pagination);
     }
 
@@ -103,7 +96,7 @@ public class MessageSender {
      *
      * @since 1.2
      */
-    public void log(String msg) {
+    public static void log(String msg) {
         sendPluginMsg(Bukkit.getServer().getConsoleSender(), msg, false);
     }
 
@@ -117,7 +110,7 @@ public class MessageSender {
      *
      * @since 1.2
      */
-    public void logStackTrace(Exception ex) {
+    public static void logStackTrace(Exception ex) {
         log("&4An error occured: &f" + ex.getLocalizedMessage());
         log(ex.getClass().getName());
         for (StackTraceElement ee : ex.getStackTrace()) {

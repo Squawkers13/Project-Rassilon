@@ -66,8 +66,8 @@ public class ProjectRassilon extends JavaPlugin {
         Version installed = RassilonUtils.getServerVersion(getServer().getVersion());
         Version required = new Version(Constants.MIN_MINECRAFT_VERSION);
         if (installed.compareTo(required) < 0) {
-            ms.log("This plugin requires CraftBukkit 1.7.9 or higher!");
-            ms.log("Disabling...");
+            MessageSender.log("This plugin requires CraftBukkit 1.7.9 or higher!");
+            MessageSender.log("Disabling...");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -79,14 +79,15 @@ public class ProjectRassilon extends JavaPlugin {
         rm = new RegenManager(this, rdh, ms);
 
         // --- Config check ---
-        if (getConfig().getDouble("settings.config-version", -1) != Constants.CONFIG_VERSION) {
-            ms.log("&cIncompatible config detected! Renaming it to config-OLD.yml");
-            ms.log("&cA new config has been created, please transfer your settings.");
-            ms.log("&cWhen you have finished, type &6/pr reload&c to load your settings.");
+        if (getConfig().getDouble("settings.config-version", -1.0D) != Constants.CONFIG_VERSION) {
+            String old = getConfig().getString("settings.config-version", "OLD");
+            MessageSender.log("&cIncompatible config detected! Renaming it to config-" + old + ".yml");
+            MessageSender.log("&cA new config has been created, please transfer your settings.");
+            MessageSender.log("&cWhen you have finished, type &6/pr reload&c to load your settings.");
             try {
-                getConfig().save(new File(getDataFolder(), "config-OLD.yml"));
+                getConfig().save(new File(getDataFolder(), "config-" + old + ".yml"));
             } catch (IOException ex) {
-                ms.logStackTrace(ex);
+                MessageSender.logStackTrace(ex);
             }
             saveResource("config.yml", true);
         }
