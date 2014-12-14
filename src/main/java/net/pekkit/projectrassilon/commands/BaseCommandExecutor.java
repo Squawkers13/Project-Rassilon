@@ -37,6 +37,7 @@ import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 import net.pekkit.projectrassilon.RegenManager;
+import net.pekkit.projectrassilon.util.Constants;
 
 /**
  *
@@ -89,7 +90,7 @@ public class BaseCommandExecutor implements CommandExecutor {
         if (plugin.getConfig() == null) {
             plugin.saveResource("config.yml", true);
         }
-        if (plugin.getConfig().getDouble("settings.config-version", -1.0D) != 1) {
+        if (plugin.getConfig().getDouble("settings.config-version", -1.0D) != Constants.CONFIG_VERSION) {
             String old = plugin.getConfig().getString("settings.config-version", "OLD");
             MessageSender.sendMsg(sender, "&cIncompatible config detected! Renaming to config-" + old + ".yml");
             MessageSender.sendMsg(sender, "&cA new config has been created, please transfer your settings.");
