@@ -50,12 +50,10 @@ public class RegenManager {
 
     private final ProjectRassilon plugin;
     private final RDataHandler rdh;
-    private final MessageSender ms;
 
-    public RegenManager(ProjectRassilon par1, RDataHandler par2, MessageSender par3) {
+    public RegenManager(ProjectRassilon par1, RDataHandler par2) {
         plugin = par1;
         rdh = par2;
-        ms = par3;
     }
 
     public void preRegen(Player player) {

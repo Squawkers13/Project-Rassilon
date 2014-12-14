@@ -48,15 +48,12 @@ public class BaseCommandExecutor implements CommandExecutor {
     private final ProjectRassilon plugin;
     private final RDataHandler rdh;
     private final RegenManager rm;
-    private final MessageSender ms;
 
-    public BaseCommandExecutor(ProjectRassilon instance, RDataHandler rdh, RegenManager rm, MessageSender m) {
+    public BaseCommandExecutor(ProjectRassilon instance, RDataHandler rdh, RegenManager rm) {
         plugin = instance;
 
         this.rdh = rdh;
         this.rm = rm;
-
-        ms = m;
     }
 
     @Override
@@ -76,6 +73,9 @@ public class BaseCommandExecutor implements CommandExecutor {
             force(sender, args);
         } else if (args[0].equalsIgnoreCase("block") || (args[0].equalsIgnoreCase("b"))) {
             setBlock(sender, args);
+        } else { //Invalid args
+            MessageSender.sendMsg(sender, "&cI'm not sure what you mean: &e" + args[0]);
+            MessageSender.sendMsg(sender, "&cType &e/pr ?&c for help.");
         }
         return true;
     }

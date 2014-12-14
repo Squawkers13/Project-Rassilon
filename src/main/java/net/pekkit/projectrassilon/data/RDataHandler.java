@@ -24,7 +24,6 @@
 package net.pekkit.projectrassilon.data;
 
 import net.pekkit.projectrassilon.ProjectRassilon;
-import net.pekkit.projectrassilon.locale.MessageSender;
 import net.pekkit.projectrassilon.util.RegenTask;
 
 import java.util.HashMap;
@@ -41,9 +40,9 @@ public class RDataHandler {
 
     public HashMap<String, Boolean> isRegen;
 
-    public RDataHandler(ProjectRassilon instance, MessageSender ms) {
+    public RDataHandler(ProjectRassilon instance) {
         plugin = instance;
-        dm = new DatabaseManager(plugin, ms);
+        dm = new DatabaseManager(plugin);
 
         isRegen = new HashMap<String, Boolean>();
 

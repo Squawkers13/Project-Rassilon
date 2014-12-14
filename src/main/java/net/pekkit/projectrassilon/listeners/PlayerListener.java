@@ -36,7 +36,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.scheduler.BukkitTask;
 
 import static org.bukkit.Bukkit.getScheduler;
 
@@ -49,14 +48,12 @@ public class PlayerListener implements Listener {
     private ProjectRassilon plugin;
     private RDataHandler rdh;
     private RegenManager rm;
-    private MessageSender ms;
 
 
-    public PlayerListener(ProjectRassilon instance, RDataHandler rdh, RegenManager rm, MessageSender m) {
+    public PlayerListener(ProjectRassilon instance, RDataHandler rdh, RegenManager rm) {
         this.plugin = instance;
         this.rdh = rdh;
         this.rm = rm;
-        ms = m;
     }
 
     /**

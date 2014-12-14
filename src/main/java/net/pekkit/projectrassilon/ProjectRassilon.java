@@ -48,8 +48,6 @@ import org.mcstats.Metrics;
  */
 public class ProjectRassilon extends JavaPlugin {
     
-    private MessageSender ms;
-
     private RDataHandler rdh;
 
     private RegenManager rm;
@@ -61,7 +59,6 @@ public class ProjectRassilon extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-        ms = new MessageSender();
 
         // --- Version check ---
         Version installed = RassilonUtils.getServerVersion(getServer().getVersion());
@@ -75,9 +72,9 @@ public class ProjectRassilon extends JavaPlugin {
 
         saveDefaultConfig();
 
-        rdh = new RDataHandler(this, ms);
+        rdh = new RDataHandler(this);
 
-        rm = new RegenManager(this, rdh, ms);
+        rm = new RegenManager(this, rdh);
 
         // --- Config check ---
         if (getConfig().getDouble("settings.config-version", -1.0D) != Constants.CONFIG_VERSION) {
@@ -103,10 +100,10 @@ public class ProjectRassilon extends JavaPlugin {
             }
         }
        
-        getServer().getPluginManager().registerEvents(new PlayerListener(this, rdh, rm, ms), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(this, rdh, rm), this);
 
-        getCommand("pr").setExecutor(new BaseCommandExecutor(this, rdh, rm, ms));
-        getCommand("regen").setExecutor(new RegenCommandExecutor(this, rdh, rm, ms));
+        getCommand("pr").setExecutor(new BaseCommandExecutor(this, rdh, rm));
+        getCommand("regen").setExecutor(new RegenCommandExecutor(this, rdh, rm));
 
         getCommand("pr").setTabCompleter(new BaseCommandTabCompleter(this));
         getCommand("regen").setTabCompleter(new RegenCommandTabCompleter(this));

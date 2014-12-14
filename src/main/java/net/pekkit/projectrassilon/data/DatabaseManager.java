@@ -38,7 +38,6 @@ import java.sql.*;
 public class DatabaseManager {
 
     private ProjectRassilon plugin;
-    private MessageSender ms;
 
     private String dbPath;
 
@@ -46,9 +45,8 @@ public class DatabaseManager {
     private Statement statement;
     private ResultSet results;
 
-    DatabaseManager(ProjectRassilon pl, MessageSender m) {
+    DatabaseManager(ProjectRassilon pl) {
         plugin = pl;
-        ms = m;
     }
 
     /**

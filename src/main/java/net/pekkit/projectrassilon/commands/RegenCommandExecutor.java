@@ -43,19 +43,16 @@ public class RegenCommandExecutor implements CommandExecutor {
     private final ProjectRassilon plugin;
     private RDataHandler rdh;
     private final RegenManager rm;
-    private MessageSender ms;
 
     /**
      *
      * @param instance
      * @param rdh
-     * @param m
      */
-    public RegenCommandExecutor(ProjectRassilon instance, RDataHandler rdh, RegenManager rm, MessageSender m) {
+    public RegenCommandExecutor(ProjectRassilon instance, RDataHandler rdh, RegenManager rm) {
         this.plugin = instance;
         this.rdh = rdh;
         this.rm = rm;
-        ms = m;
     }
 
     /**
@@ -87,6 +84,9 @@ public class RegenCommandExecutor implements CommandExecutor {
             forceCommand(player);
         } else if (args[0].equalsIgnoreCase("block") || args[0].equalsIgnoreCase("b")) {
             blockCommand(player, args);
+        } else { //invalid args
+            MessageSender.sendMsg(sender, "&cI'm not sure what you mean: &e" + args[0]);
+            MessageSender.sendMsg(sender, "&cType &e/regen ?&c for help.");
         }
         return true;
     }
