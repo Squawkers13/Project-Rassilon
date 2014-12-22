@@ -4,6 +4,7 @@
 * Post regen effect doesn't seem to be ending
 
 ##Future version `1.4+`
+* Incarnations
 * Last known name cache?
 * Failing regens
 * TARDIS integration - Zero Room, Console Change, etc.
@@ -11,3 +12,6 @@
     * Improve Regen Sounds & Effects
     * Localization
     * No regen if disguised (VanishNoPacket/LibsDisguises)
+
+##Distant future `2.0`
+* mcMMO integration
