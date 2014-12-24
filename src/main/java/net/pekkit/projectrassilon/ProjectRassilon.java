@@ -38,6 +38,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import net.pekkit.projectrassilon.util.RassilonUtils.SimplifiedVersion;
 import org.mcstats.Metrics;
 
 /**
@@ -47,7 +48,7 @@ import org.mcstats.Metrics;
  * @version 1.3
  */
 public class ProjectRassilon extends JavaPlugin {
-    
+
     private RDataHandler rdh;
 
     private RegenManager rm;
@@ -61,9 +62,7 @@ public class ProjectRassilon extends JavaPlugin {
     public void onEnable() {
 
         // --- Version check ---
-        Version installed = RassilonUtils.getServerVersion(getServer().getVersion());
-        Version required = new Version(Constants.MIN_MINECRAFT_VERSION);
-        if (installed.compareTo(required) < 0) {
+        if (RassilonUtils.getCurrentVersion(this) == SimplifiedVersion.PRE_UUID) {
             MessageSender.log("This plugin requires CraftBukkit 1.7.9 or higher!");
             MessageSender.log("Disabling...");
             getServer().getPluginManager().disablePlugin(this);
@@ -89,7 +88,7 @@ public class ProjectRassilon extends JavaPlugin {
             }
             saveResource("config.yml", true);
         }
-        
+
         // --- MCStats submission ---
         if (getConfig().getBoolean("settings.general.stats")) {
             try {
@@ -99,7 +98,7 @@ public class ProjectRassilon extends JavaPlugin {
                 // Failed to submit the stats :-(
             }
         }
-       
+
         getServer().getPluginManager().registerEvents(new PlayerListener(this, rdh, rm), this);
 
         getCommand("pr").setExecutor(new BaseCommandExecutor(this, rdh, rm));

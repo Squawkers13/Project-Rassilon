@@ -27,6 +27,7 @@ import net.pekkit.projectrassilon.ProjectRassilon;
 import net.pekkit.projectrassilon.RegenManager;
 import net.pekkit.projectrassilon.data.RDataHandler;
 import net.pekkit.projectrassilon.locale.MessageSender;
+import net.pekkit.projectrassilon.util.RassilonUtils;
 import net.pekkit.projectrassilon.util.RegenTask;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,7 +49,6 @@ public class PlayerListener implements Listener {
     private ProjectRassilon plugin;
     private RDataHandler rdh;
     private RegenManager rm;
-
 
     public PlayerListener(ProjectRassilon instance, RDataHandler rdh, RegenManager rm) {
         this.plugin = instance;
@@ -137,7 +137,11 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
         if (rdh.getPlayerRegenStatus(event.getPlayer().getUniqueId())) {
-            MessageSender.sendMsg(event.getPlayer(), "&6You are currently regenerating.");
+            if (RassilonUtils.getCurrentVersion(plugin).getIndex() >= 2) { //Bountiful is enabled :)
+                RassilonUtils.sendActionBar(event.getPlayer(), "&6You are currently regenerating.");
+            } else {
+                MessageSender.sendMsg(event.getPlayer(), "&6You are currently regenerating.");
+            }
         }
     }
 }

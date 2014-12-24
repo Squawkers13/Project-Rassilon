@@ -35,6 +35,7 @@ import net.pekkit.projectrassilon.tasks.TaskRegenDelay;
 import net.pekkit.projectrassilon.tasks.TaskRegenEffects;
 import net.pekkit.projectrassilon.tasks.TaskRegenEnd;
 import net.pekkit.projectrassilon.util.Constants;
+import net.pekkit.projectrassilon.util.RassilonUtils;
 import net.pekkit.projectrassilon.util.RegenTask;
 import static org.bukkit.Bukkit.getScheduler;
 import org.bukkit.entity.Player;
@@ -97,7 +98,11 @@ public class RegenManager {
             player.removePotionEffect(effect.getType());
         }
 
-        MessageSender.sendMsg(player, "&6You have regenerated");
+        if (RassilonUtils.getCurrentVersion(plugin).getIndex() >= 2) { //Bountiful is enabled :)
+            RassilonUtils.sendTitle(player, "&6You have regenerated", "", 3, 7, 3);
+        } else {
+            MessageSender.sendMsg(player, "&6You have regenerated");
+        }
         MessageSender.log(player.getName() + " has regenerated");
 
         int regen = rdh.getPlayerRegenCount(player.getUniqueId()) - 1;
