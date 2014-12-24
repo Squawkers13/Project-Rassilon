@@ -134,7 +134,7 @@ public class RegenManager {
         player.setFireTicks(1);
 
         BukkitTask postRegenEffects = new TaskPostRegenEffects(plugin, player.getUniqueId()).runTaskTimer(plugin, 100L, 100L);
-        rdh.setPlayerTask(player.getUniqueId(), RegenTask.PRE_REGEN_EFFECTS, postRegenEffects.getTaskId());
+        rdh.setPlayerTask(player.getUniqueId(), RegenTask.POST_REGEN_EFFECTS, postRegenEffects.getTaskId());
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Constants.POST_REGEN_LENGTH, 1, true), true);
         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Constants.POST_REGEN_LENGTH, 1, true), true);
