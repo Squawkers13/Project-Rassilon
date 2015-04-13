@@ -76,7 +76,7 @@ public class RassilonUtils {
 
         PRE_UUID(new Version("1.7.2"), 0),
         MINIMUM(new Version("1.7.9"), 1),
-        BOUNTIFUL(new Version("1.8"), 2);
+        BOUNTIFUL(new Version("1.8.3"), 2);
 
         private final Version implied;
         private final int index;
