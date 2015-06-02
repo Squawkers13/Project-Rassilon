@@ -102,7 +102,9 @@ public class RegenCommandExecutor implements CommandExecutor {
         } else {
             MessageSender.sendMsg(player, "&cYou &ecannot &cregenerate.");
         }
-        MessageSender.sendMsg(player, "&cYou are on your &e" + this.rdh.getPlayerIncarnationCount(player.getUniqueId()) + " &cincarnation.");
+        MessageSender.sendMsg(player, "&cYou are on your &e" + this.rdh.getPlayerIncarnationCount(player.getUniqueId()) 
+                + getIncarnationSuffix(this.rdh.getPlayerIncarnationCount(player.getUniqueId())) + " &cincarnation.");
+        
         if (rdh.getPlayerRegenStatus(player.getUniqueId())) {
             MessageSender.sendMsg(player, "&cYou are currently regenerating.");
 
@@ -188,6 +190,18 @@ public class RegenCommandExecutor implements CommandExecutor {
                 rdh.setPlayerRegenBlock(player.getUniqueId(), false);
                 MessageSender.sendMsg(player, "&eYou are no longer blocking your next regeneration.");
             }
+        }
+    }
+    
+    private String getIncarnationSuffix(int i) {
+        if (i == 1) {
+            return "st";
+        } else if (i == 2) {
+            return "nd";
+        } else if (i == 3) {
+            return "rd";
+        } else {
+            return "th";
         }
     }
 }
