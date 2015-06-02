@@ -70,7 +70,8 @@ public class BaseCommandTabCompleter implements TabCompleter {
             return (part.size() > 0) ? part : null;
         } else if (args.length == 2) {
             String sub = args[0];
-            if (sub.equalsIgnoreCase("view") || sub.equalsIgnoreCase("set") || sub.equalsIgnoreCase("force") || sub.equalsIgnoreCase("block")) {
+            if (sub.equalsIgnoreCase("view") || sub.equalsIgnoreCase("set") || sub.equalsIgnoreCase("force") || sub.equalsIgnoreCase("block") 
+                    || sub.equalsIgnoreCase("v") || sub.equalsIgnoreCase("s")|| sub.equalsIgnoreCase("f")|| sub.equalsIgnoreCase("b")) {
                 return null;
             } else {
                 return of();

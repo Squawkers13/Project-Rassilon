@@ -106,6 +106,8 @@ public class PlayerListener implements Listener {
         Player player = event.getEntity();
 
         rdh.setPlayerRegenCount(player.getUniqueId(), plugin.getConfig().getInt("settings.regen.count"));
+        
+        rdh.setPlayerIncarnationCount(player.getUniqueId(), 1);
 
         for (RegenTask e : RegenTask.values()) {
             int task = rdh.getPlayerTask(player.getUniqueId(), e);

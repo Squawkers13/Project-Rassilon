@@ -102,6 +102,7 @@ public class RegenCommandExecutor implements CommandExecutor {
         } else {
             MessageSender.sendMsg(player, "&cYou &ecannot &cregenerate.");
         }
+        MessageSender.sendMsg(player, "&cYou are on your &e" + this.rdh.getPlayerIncarnationCount(player.getUniqueId()) + " &cincarnation.");
         if (rdh.getPlayerRegenStatus(player.getUniqueId())) {
             MessageSender.sendMsg(player, "&cYou are currently regenerating.");
 

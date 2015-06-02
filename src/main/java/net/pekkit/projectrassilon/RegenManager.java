@@ -132,13 +132,16 @@ public class RegenManager {
 
         player.setFallDistance(0);
         player.setFireTicks(1);
+        
+        rdh.setPlayerIncarnationCount(player.getUniqueId(), rdh.getPlayerIncarnationCount(player.getUniqueId()) + 1);
 
         BukkitTask postRegenEffects = new TaskPostRegenEffects(plugin, player.getUniqueId()).runTaskTimer(plugin, 100L, 100L);
         rdh.setPlayerTask(player.getUniqueId(), RegenTask.POST_REGEN_EFFECTS, postRegenEffects.getTaskId());
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Constants.POST_REGEN_LENGTH, 1, true), true);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Constants.POST_REGEN_LENGTH, 1, true), true);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, Constants.POST_REGEN_LENGTH / 2, 1, true), true);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Constants.POST_REGEN_LENGTH, 2, true), true);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, Constants.POST_REGEN_LENGTH, 3, true), true);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, Constants.POST_REGEN_LENGTH / 2, 4, true), true);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Constants.POST_REGEN_LENGTH / 2, 1, true), true);
         // --- END POST-REGENERATION ---
 
         BukkitTask regenEnd = new TaskRegenEnd(rdh, player).runTaskLater(plugin, Constants.POST_REGEN_LENGTH);

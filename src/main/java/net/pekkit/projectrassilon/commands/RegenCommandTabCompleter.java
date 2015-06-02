@@ -73,7 +73,7 @@ public class RegenCommandTabCompleter implements TabCompleter {
             return (part.size() > 0) ? part : null;
         } else if (args.length == 2) {
             String sub = args[0];
-            if (sub.equalsIgnoreCase("block")) {
+            if (sub.equalsIgnoreCase("block") || sub.equalsIgnoreCase("b")) {
                 return of("true", "false");
             } else {
                 return of();

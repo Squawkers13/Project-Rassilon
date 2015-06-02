@@ -25,15 +25,15 @@ package net.pekkit.projectrassilon.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.minecraft.server.v1_8_R2.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_8_R2.PacketPlayOutTitle.EnumTitleAction;
-import net.minecraft.server.v1_8_R2.IChatBaseComponent;
-import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
-import net.minecraft.server.v1_8_R2.PacketPlayOutTitle;
-import net.minecraft.server.v1_8_R2.PlayerConnection;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import net.pekkit.projectrassilon.ProjectRassilon;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 /**
@@ -76,7 +76,7 @@ public class RassilonUtils {
 
         PRE_UUID(new Version("1.7.2"), 0),
         MINIMUM(new Version("1.7.9"), 1),
-        BOUNTIFUL(new Version("1.8.3"), 2);
+        BOUNTIFUL(new Version("1.8.6"), 2);
 
         private final Version implied;
         private final int index;

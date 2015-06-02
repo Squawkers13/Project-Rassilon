@@ -73,7 +73,7 @@ public class DatabaseManager {
      * Creates the default tables.
      */
     protected void createTables() {
-        update("CREATE TABLE IF NOT EXISTS Regen (UUID TEXT UNIQUE NOT NULL PRIMARY KEY, count INTEGER DEFAULT " + plugin.getConfig().getInt("settings.regen.count") + ", block INTEGER DEFAULT 0);");
+        update("CREATE TABLE IF NOT EXISTS Regen (UUID TEXT UNIQUE NOT NULL PRIMARY KEY, count INTEGER DEFAULT " + plugin.getConfig().getInt("settings.regen.count") + ", block INTEGER DEFAULT 0, incarnation INTEGER DEFAULT 1);");
 
         StringBuilder taskQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Tasks (UUID TEXT UNIQUE NOT NULL PRIMARY KEY");
         for (RegenTask t : RegenTask.values()) {

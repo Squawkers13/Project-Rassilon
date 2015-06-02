@@ -82,4 +82,15 @@ public class TimelordDataManager {
     public boolean getRegenStatus(Player player) {
         return rdh.getPlayerRegenStatus(player.getUniqueId());
     }
+    
+    /**
+     * Fetches the incarnation count of a player.
+     *
+     * @param player The player to fetch the incarnation count of.
+     *
+     * @return The player's incarnation count.
+     */
+    public int getIncarnationCount(Player player) {
+        return rdh.getPlayerIncarnationCount(player.getUniqueId());
+    }
 }

@@ -125,5 +125,26 @@ public class RDataHandler {
             dm.update("UPDATE Tasks SET " + taskType.getColumnName() + "='" + taskNum + "' WHERE UUID='" + player.toString() + "'; ");
         }
     }
+    
+    public int getPlayerIncarnationCount(UUID player) {
+        int num;
+        num = dm.query("SELECT * FROM Regen WHERE UUID='" + player.toString() + "';", "incarnation");
+
+        if (num == -1) {
+            return 1;
+        }
+        
+        return num;
+    }
+
+    public void setPlayerIncarnationCount(UUID player, int num) {
+        if (dm.checkNull(player.toString(), "Regen")) {
+            // Time to create a new row
+            dm.update("INSERT INTO Regen (UUID, incarnation, block) VALUES ('" + player.toString() + "','" + num + "','0'); ");
+        } else {
+            // Row already exists
+            dm.update("UPDATE Regen SET incarnation='" + num + "' WHERE UUID='" + player.toString() + "'; ");
+        }
+    }
 
 }
