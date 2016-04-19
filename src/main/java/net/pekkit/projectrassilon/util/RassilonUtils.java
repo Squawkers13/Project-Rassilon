@@ -67,7 +67,7 @@ public class RassilonUtils {
             String[] split = mat.group(1).split(" ");
             v = split[1];
         } else {
-            v = "1.7.2"; //Why is this 1.7.2?
+            v = "1.7.2"; //Why is this 1.7.2? Probably to catch Cauldron servers
         }
         return new Version(v);
     }
@@ -113,7 +113,6 @@ public class RassilonUtils {
     }
 
     private static String buildJSON(String msg) {
-        return "{text:\"" + ChatColor.translateAlternateColorCodes('&', msg) + "\"}";
+        return "{\"text\": \"" + ChatColor.translateAlternateColorCodes('&', msg) + "\"}";
     }
-
 }
