@@ -25,15 +25,15 @@ package net.pekkit.projectrassilon.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
-import net.minecraft.server.v1_8_R3.PlayerConnection;
+import net.minecraft.server.v1_10_R1.IChatBaseComponent;
+import net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_10_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_10_R1.PacketPlayOutTitle;
+import net.minecraft.server.v1_10_R1.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_10_R1.PlayerConnection;
 import net.pekkit.projectrassilon.ProjectRassilon;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 /**
@@ -67,7 +67,7 @@ public class RassilonUtils {
             String[] split = mat.group(1).split(" ");
             v = split[1];
         } else {
-            v = "1.7.2"; //Why is this 1.7.2?
+            v = "1.7.2"; //Why is this 1.7.2? Probably to catch Cauldron servers
         }
         return new Version(v);
     }
@@ -94,7 +94,7 @@ public class RassilonUtils {
             return index;
         }
     }
-    
+
     public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
         CraftPlayer craftplayer = (CraftPlayer) player;
         PlayerConnection connection = craftplayer.getHandle().playerConnection;
@@ -111,9 +111,8 @@ public class RassilonUtils {
         PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, (byte) 2);
         ((CraftPlayer) p).getHandle().playerConnection.sendPacket(ppoc);
     }
-    
-    private static String buildJSON(String msg) {
-        return "{text:\"" + ChatColor.translateAlternateColorCodes('&', msg) + "\"}";
-    }
 
+    private static String buildJSON(String msg) {
+        return "{\"text\": \"" + ChatColor.translateAlternateColorCodes('&', msg) + "\"}";
+    }
 }

@@ -26,7 +26,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.pekkit</groupId>
     <artifactId>Project-Rassilon</artifactId>
-    <version>1.4</version>
+    <version>1.4.1</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,15 +56,33 @@
     </repositories>
     <dependencies>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.8.6-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.10-R0.1-SNAPSHOT</version>
             <type>jar</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.md-5</groupId>
+                    <artifactId>bungeecord-chat</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.avaje</groupId>
+                    <artifactId>ebean</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.8.6-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.10-R0.1-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -78,6 +96,12 @@
             <artifactId>Vault</artifactId>
             <version>LATEST</version>
             <type>jar</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>bukkit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
