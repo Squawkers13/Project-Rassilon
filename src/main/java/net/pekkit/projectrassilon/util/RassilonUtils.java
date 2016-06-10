@@ -25,15 +25,15 @@ package net.pekkit.projectrassilon.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.minecraft.server.v1_9_R2.IChatBaseComponent;
-import net.minecraft.server.v1_9_R2.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_9_R2.PacketPlayOutChat;
-import net.minecraft.server.v1_9_R2.PacketPlayOutTitle;
-import net.minecraft.server.v1_9_R2.PacketPlayOutTitle.EnumTitleAction;
-import net.minecraft.server.v1_9_R2.PlayerConnection;
+import net.minecraft.server.v1_10_R1.IChatBaseComponent;
+import net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_10_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_10_R1.PacketPlayOutTitle;
+import net.minecraft.server.v1_10_R1.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_10_R1.PlayerConnection;
 import net.pekkit.projectrassilon.ProjectRassilon;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 /**
