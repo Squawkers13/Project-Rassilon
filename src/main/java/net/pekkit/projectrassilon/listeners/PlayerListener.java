@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,8 +24,10 @@
 package net.pekkit.projectrassilon.listeners;
 
 import net.pekkit.projectrassilon.ProjectRassilon;
+import net.pekkit.projectrassilon.RScoreboardManager;
 import net.pekkit.projectrassilon.RegenManager;
-import net.pekkit.projectrassilon.data.RDataHandler;
+import net.pekkit.projectrassilon.data.RTimelordData;
+import net.pekkit.projectrassilon.data.TimelordDataHandler;
 import net.pekkit.projectrassilon.locale.MessageSender;
 import net.pekkit.projectrassilon.util.RassilonUtils;
 import net.pekkit.projectrassilon.util.RegenTask;
@@ -36,10 +38,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.scoreboard.Scoreboard;
 
+import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.CORE;
+import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.REGEN;
 import static org.bukkit.Bukkit.getScheduler;
 
+@SuppressWarnings("unused")
 /**
  *
  * @author Squawkers13
@@ -47,13 +54,15 @@ import static org.bukkit.Bukkit.getScheduler;
 public class PlayerListener implements Listener {
 
     private ProjectRassilon plugin;
-    private RDataHandler rdh;
+    private TimelordDataHandler tdh;
     private RegenManager rm;
+    private RScoreboardManager rsm;
 
-    public PlayerListener(ProjectRassilon instance, RDataHandler rdh, RegenManager rm) {
+    public PlayerListener(ProjectRassilon instance, TimelordDataHandler tdh, RegenManager rm, RScoreboardManager rsm) {
         this.plugin = instance;
-        this.rdh = rdh;
+        this.tdh = tdh;
         this.rm = rm;
+        this.rsm = rsm;
     }
 
     /**
@@ -69,15 +78,17 @@ public class PlayerListener implements Listener {
 
                 if (player.hasPermission("projectrassilon.regen.timelord")) { //Do they have permission?
 
+                    RTimelordData p = tdh.getTimelordData(player);
+
                     // --- BEGIN REGEN CHECKS ---   
-                    if (rdh.getPlayerRegenCount(player.getUniqueId()) <= 0) { //Not enough regeneration energy
+                    if (p.getRegenEnergy() < plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120)) { //Not enough regeneration energy
                         return;
                     }
-                    if (rdh.getPlayerRegenBlock(player.getUniqueId())) { //Blocking regeneration
-                        rdh.setPlayerRegenBlock(player.getUniqueId(), false);
+                    if (p.getRegenBlock()) { //Blocking regeneration
+                        p.setRegenBlock(false);
                         return;
                     }
-                    if (rdh.getPlayerRegenStatus(player.getUniqueId())) { //Already regenerating
+                    if (p.getRegenStatus()) { //Already regenerating
                         return;
                     }
                     if (event.isCancelled()) { //Damage event already cancelled
@@ -90,6 +101,7 @@ public class PlayerListener implements Listener {
 
                     event.setCancelled(true);
                     // --- END REGEN CHECKS ---
+                    MessageSender.sendPrefixMsg(player, "&eYou used " + plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120) + " regeneration energy.");
                     rm.preRegen(player);
 
                 }
@@ -103,20 +115,20 @@ public class PlayerListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeathEvent(PlayerDeathEvent event) {
-        Player player = event.getEntity();
+        RTimelordData p = tdh.getTimelordData(event.getEntity());
 
-        rdh.setPlayerRegenCount(player.getUniqueId(), plugin.getConfig().getInt("settings.regen.count"));
+        p.setRegenEnergy(plugin.getConfig(REGEN).getInt("regen.costs.startingEnergy"));
         
-        rdh.setPlayerIncarnationCount(player.getUniqueId(), 1);
+        p.setIncarnation(1);
 
         for (RegenTask e : RegenTask.values()) {
-            int task = rdh.getPlayerTask(player.getUniqueId(), e);
+            int task = p.getRegenTask(e);
             getScheduler().cancelTask(task);
-            rdh.setPlayerTask(player.getUniqueId(), e, 0);
+            p.setRegenTask(e, 0);
         }
 
-        if (rdh.getPlayerRegenStatus(player.getUniqueId())) {
-            event.setDeathMessage(player.getName() + " was killed while regenerating");
+        if (p.getRegenStatus()) {
+            event.setDeathMessage(event.getEntity().getName() + " was killed while regenerating");
         }
 
     }
@@ -127,9 +139,9 @@ public class PlayerListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerRespawnEvent(PlayerRespawnEvent event) {
-        Player player = event.getPlayer();
+        RTimelordData p = tdh.getTimelordData(event.getPlayer());
 
-        rdh.setPlayerRegenStatus(player.getUniqueId(), false);
+        p.setRegenStatus(false);
     }
 
     /**
@@ -138,12 +150,34 @@ public class PlayerListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
-        if (rdh.getPlayerRegenStatus(event.getPlayer().getUniqueId())) {
+        RTimelordData p = tdh.getTimelordData(event.getPlayer());
+
+        if (p.getRegenStatus()) {
             if (RassilonUtils.getCurrentVersion(plugin).getIndex() >= 2) { //Bountiful is enabled :)
-                RassilonUtils.sendActionBar(event.getPlayer(), "&6You are currently regenerating.");
+                RassilonUtils.getNMSHelper().sendActionBar(event.getPlayer(), "&6You are currently regenerating.");
             } else {
                 MessageSender.sendMsg(event.getPlayer(), "&6You are currently regenerating.");
             }
         }
+
+        // Set new max health if applicable
+        if (event.getPlayer().hasPermission("projectrassilon.regen.timelord") && plugin.getConfig(CORE).getBoolean("core.regen.modifyTimelordHP", true)) {
+            event.getPlayer().setMaxHealth(plugin.getConfig(CORE).getDouble("core.regen.timelordHP", 40.0));
+        }
+
+        rsm.setScoreboardForPlayer(event.getPlayer(), RScoreboardManager.SidebarType.NONE);
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+        if (tdh.getTimelordData(event.getPlayer()).getRegenStatus()) {
+            MessageSender.log("Keeping data entry for " + event.getPlayer().getName() + " in memory as they are still regenerating!");
+            return;
+        }
+        tdh.removeTimelordData(event.getPlayer());
     }
 }

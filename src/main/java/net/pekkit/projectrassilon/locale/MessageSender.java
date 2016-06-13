@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -70,6 +70,22 @@ public class MessageSender {
     }
 
     /**
+     * Plugin method to easily send messages prefixed with a short prefix.
+     * Prefixes the message with [PR] and calls sendMsg.
+     * This is recommended than sendPluginMsg for in-game-chat!
+     *
+     * @param sender The CommandSender to send the message to.
+     * @param msg The message to be sent.
+     *
+     * @see sendMsg
+     *
+     * @since 2.0
+     */
+    public static void sendPrefixMsg(CommandSender sender, String msg) {
+        sendMsg(sender, "&c[&6PR&c] " + msg, true);
+    }
+
+    /**
      * Plugin method to easily send messages prefixed with the plugin name.
      * Prefixes the message with the plugin name and calls sendMsg.
      *
@@ -82,7 +98,7 @@ public class MessageSender {
      * @since 1.2
      */
     public static void sendPluginMsg(CommandSender sender, String msg, boolean pagination) {
-        sendMsg(sender, "&f[&cProjectRassilon&f] " + msg, pagination);
+        sendMsg(sender, "&c[&6ProjectRassilon&c] " + msg, pagination);
     }
 
     /**
@@ -97,7 +113,7 @@ public class MessageSender {
      * @since 1.2
      */
     public static void log(String msg) {
-        sendPluginMsg(Bukkit.getServer().getConsoleSender(), msg, false);
+        sendPluginMsg(Bukkit.getServer().getConsoleSender(), msg, true);
     }
 
     /**

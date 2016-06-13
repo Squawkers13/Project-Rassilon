@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,7 +23,7 @@
  */
 package net.pekkit.projectrassilon.api;
 
-import net.pekkit.projectrassilon.data.RDataHandler;
+import net.pekkit.projectrassilon.data.TimelordDataHandler;
 import org.bukkit.entity.Player;
 
 /**
@@ -32,10 +32,10 @@ import org.bukkit.entity.Player;
  */
 public class TimelordDataManager {
 
-    private final RDataHandler rdh;
+    private final TimelordDataHandler tdh;
 
-    public TimelordDataManager(RDataHandler r) {
-        rdh = r;
+    public TimelordDataManager(TimelordDataHandler t) {
+        tdh = t;
     }
 
     /**
@@ -50,15 +50,27 @@ public class TimelordDataManager {
         return player.hasPermission("projectrassilon.regen.timelord");
     }
 
-    /**
-     * Fetches the regeneration count of a player.
+    /** Returns a data object used to get and set Timelord Data.
      *
-     * @param player The player to fetch the regeneration count of.
+     * @param player The player to get the TimelordData for
+     * @return A TimelordData object
      *
-     * @return The player's regeneration count.
+     * @since 2.0
      */
-    public int getRegenCount(Player player) {
-        return rdh.getPlayerRegenCount(player.getUniqueId());
+    public TimelordData getTimelordData(Player player) {
+        return tdh.getTimelordData(player);
+    }
+
+    /**
+     * Fetches the regeneration energy of a player.
+     *
+     * @param player The player to fetch the regeneration energy of.
+     *
+     * @return The player's regeneration energy.
+     */
+    @Deprecated
+    public int getRegenEnergy(Player player) {
+        return tdh.getTimelordData(player).getRegenEnergy();
     }
 
     /**
@@ -68,19 +80,21 @@ public class TimelordDataManager {
      *
      * @return The player's regeneration block.
      */
+    @Deprecated
     public boolean getRegenBlock(Player player) {
-        return rdh.getPlayerRegenBlock(player.getUniqueId());
+        return tdh.getTimelordData(player).getRegenBlock();
     }
 
     /**
      * Fetches the regeneration status of a player.
      *
-     * @param player The player to fetch the regeneration block of.
+     * @param player The player to fetch the regeneration status of.
      *
      * @return Whether the player is regenerating or not.
      */
+    @Deprecated
     public boolean getRegenStatus(Player player) {
-        return rdh.getPlayerRegenStatus(player.getUniqueId());
+        return tdh.getTimelordData(player).getRegenStatus();
     }
     
     /**
@@ -90,7 +104,8 @@ public class TimelordDataManager {
      *
      * @return The player's incarnation count.
      */
+    @Deprecated
     public int getIncarnationCount(Player player) {
-        return rdh.getPlayerIncarnationCount(player.getUniqueId());
+        return tdh.getTimelordData(player).getIncarnation();
     }
 }

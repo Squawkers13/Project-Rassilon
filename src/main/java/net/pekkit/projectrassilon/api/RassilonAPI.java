@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,8 +25,7 @@ package net.pekkit.projectrassilon.api;
 
 import net.pekkit.projectrassilon.ProjectRassilon;
 import net.pekkit.projectrassilon.RegenManager;
-import net.pekkit.projectrassilon.data.RDataHandler;
-import net.pekkit.projectrassilon.locale.MessageSender;
+import net.pekkit.projectrassilon.data.TimelordDataHandler;
 
 /**
  * This is the API other plugins can use to hook into Project Rassilon.
@@ -36,19 +35,19 @@ import net.pekkit.projectrassilon.locale.MessageSender;
 public class RassilonAPI {
 
     private final ProjectRassilon plugin;
-    private final RDataHandler rdh;
+    private final TimelordDataHandler tdh;
     private final RegenManager rm;
 
     private final TimelordDataManager tdm;
     private final Regenerator tr;
 
-    public RassilonAPI(ProjectRassilon par1, RDataHandler par2, RegenManager rm) {
+    public RassilonAPI(ProjectRassilon par1, TimelordDataHandler par2, RegenManager rm) {
         plugin = par1;
-        rdh = par2;
+        tdh = par2;
         this.rm = rm;
 
-        tdm = new TimelordDataManager(rdh);
-        tr = new Regenerator(plugin, rdh, rm);
+        tdm = new TimelordDataManager(tdh);
+        tr = new Regenerator(plugin, tdh, rm);
     }
 
     /**

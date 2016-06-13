@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,24 +23,27 @@
  */
 package net.pekkit.projectrassilon.util;
 
+import net.pekkit.projectrassilon.ProjectRassilon;
+import net.pekkit.projectrassilon.locale.MessageSender;
+import net.pekkit.projectrassilon.nms.BountifulHelper;
+import net.pekkit.projectrassilon.nms.HelperV1_8_R1;
+import net.pekkit.projectrassilon.nms.INMSHelper;
+import org.bukkit.Bukkit;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle.EnumTitleAction;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
-import net.minecraft.server.v1_8_R3.PlayerConnection;
-import net.pekkit.projectrassilon.ProjectRassilon;
-import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.entity.Player;
 
 /**
  *
  * @author Squawkers13
  */
 public class RassilonUtils {
+
+    private static INMSHelper nms;
 
     public static final SimplifiedVersion getCurrentVersion(ProjectRassilon plugin) {
         Version server = getServerVersion(plugin.getServer().getVersion());
@@ -67,7 +70,7 @@ public class RassilonUtils {
             String[] split = mat.group(1).split(" ");
             v = split[1];
         } else {
-            v = "1.7.2"; //Why is this 1.7.2?
+            v = "1.7.2"; //This catches Cauldron servers - thanks eccentric_nz
         }
         return new Version(v);
     }
@@ -76,7 +79,7 @@ public class RassilonUtils {
 
         PRE_UUID(new Version("1.7.2"), 0),
         MINIMUM(new Version("1.7.9"), 1),
-        BOUNTIFUL(new Version("1.8.6"), 2);
+        BOUNTIFUL(new Version("1.8"), 2);
 
         private final Version implied;
         private final int index;
@@ -94,26 +97,55 @@ public class RassilonUtils {
             return index;
         }
     }
-    
-    public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        CraftPlayer craftplayer = (CraftPlayer) player;
-        PlayerConnection connection = craftplayer.getHandle().playerConnection;
-        IChatBaseComponent titleJSON = ChatSerializer.a(buildJSON(title));
-        IChatBaseComponent subtitleJSON = ChatSerializer.a(buildJSON(subtitle));
-        PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(EnumTitleAction.TITLE, titleJSON, fadeIn, stay, fadeOut);
-        PacketPlayOutTitle subtitlePacket = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, subtitleJSON);
-        connection.sendPacket(titlePacket);
-        connection.sendPacket(subtitlePacket);
+
+
+    public static INMSHelper getNMSHelper() {
+        if (nms == null) {
+            String version = Bukkit.getServer().getClass().getPackage().getName().replace(".",  ",").split(",")[3];
+
+            MessageSender.log("Instantiating NMS helper for server version " + version);
+
+            if(version == "v1_8_R1") {
+                nms = new HelperV1_8_R1();
+            } else {
+                nms = new BountifulHelper(version); //The code stays stable for now
+            }
+        }
+        return nms;
     }
 
-    public static void sendActionBar(Player p, String msg) {
-        IChatBaseComponent cbc = ChatSerializer.a(buildJSON(msg));
-        PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, (byte) 2);
-        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(ppoc);
+    public enum ConfigurationFile {
+        CORE("core.yml"),
+        REGEN("regen.yml");
+
+        private String fileName;
+
+        ConfigurationFile(String par1) {
+            fileName = par1;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
     }
-    
-    private static String buildJSON(String msg) {
-        return "{text:\"" + ChatColor.translateAlternateColorCodes('&', msg) + "\"}";
+
+    /**
+     * Used to copy configuration files to the plugin folder.
+     * @since 2.0
+     */
+    public static void copy(InputStream in, File file) {
+        try {
+            OutputStream out = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            out.close();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

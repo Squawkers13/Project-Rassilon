@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,24 +25,22 @@
 package net.pekkit.projectrassilon.tasks;
 
 import net.pekkit.projectrassilon.RegenManager;
-import net.pekkit.projectrassilon.data.RDataHandler;
+import net.pekkit.projectrassilon.data.TimelordDataHandler;
 import net.pekkit.projectrassilon.util.RegenTask;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import static org.bukkit.Bukkit.getScheduler;
 
 /**
  *
  * @author Squawkers13
  */
 public class TaskRegenDelay extends BukkitRunnable {
-    private final RDataHandler rdh;
+    private final TimelordDataHandler tdh;
     private final RegenManager rm;
     private final Player player;
 
-    public TaskRegenDelay(RDataHandler par1, RegenManager par2, Player par3) {
-        rdh = par1;
+    public TaskRegenDelay(TimelordDataHandler par1, RegenManager par2, Player par3) {
+        tdh = par1;
         rm = par2;
         player = par3;
 
@@ -52,7 +50,7 @@ public class TaskRegenDelay extends BukkitRunnable {
     public void run() {
         rm.regen(player);
         
-        rdh.setPlayerTask(player.getUniqueId(), RegenTask.REGEN_DELAY, 0);
+        tdh.getTimelordData(player).setRegenTask(RegenTask.REGEN_DELAY, 0);
     }
 
 }

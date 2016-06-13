@@ -22,12 +22,24 @@
  * THE SOFTWARE.
  */
 
-package net.pekkit.projectrassilon.util;
+package net.pekkit.projectrassilon.api;
 
-/**
- * Constants
- * @author Squawkers13
- */
-public class Constants {
-    //Nothing here yet!
+import net.pekkit.projectrassilon.util.RegenTask;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+
+public interface TimelordData {
+
+    OfflinePlayer getOfflinePlayer();
+
+    int getRegenEnergy();
+
+    int getIncarnation();
+
+    boolean getRegenBlock();
+
+    boolean getRegenStatus();
+
+    int getRegenTask(RegenTask t);
+
 }

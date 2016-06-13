@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -28,28 +28,37 @@ import net.pekkit.projectrassilon.commands.BaseCommandExecutor;
 import net.pekkit.projectrassilon.commands.BaseCommandTabCompleter;
 import net.pekkit.projectrassilon.commands.RegenCommandExecutor;
 import net.pekkit.projectrassilon.commands.RegenCommandTabCompleter;
-import net.pekkit.projectrassilon.data.RDataHandler;
+import net.pekkit.projectrassilon.data.TimelordDataHandler;
 import net.pekkit.projectrassilon.listeners.PlayerListener;
 import net.pekkit.projectrassilon.locale.MessageSender;
-import net.pekkit.projectrassilon.util.Constants;
 import net.pekkit.projectrassilon.util.RassilonUtils;
-import net.pekkit.projectrassilon.util.Version;
+import net.pekkit.projectrassilon.util.RassilonUtils.SimplifiedVersion;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
 import java.io.File;
 import java.io.IOException;
-import net.pekkit.projectrassilon.util.RassilonUtils.SimplifiedVersion;
-import org.mcstats.Metrics;
+import java.util.EnumMap;
+import java.util.HashMap;
+
+import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.CORE;
+import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.values;
 
 /**
- * Project Rassilon: Become a Time Lord and regenerate!
+ * Project Rassilon: Become a Time Lord and regenerate (among other things)
  *
  * @author Squawkers13
- * @version 1.3
+ * @version 2.0
  */
 public class ProjectRassilon extends JavaPlugin {
 
-    private RDataHandler rdh;
+    private EnumMap<RassilonUtils.ConfigurationFile, YamlConfiguration> configs;
+
+    public TimelordDataHandler tdh;
+
+    private RScoreboardManager rsm;
 
     private RegenManager rm;
 
@@ -63,20 +72,43 @@ public class ProjectRassilon extends JavaPlugin {
 
         // --- Version check ---
         if (RassilonUtils.getCurrentVersion(this) == SimplifiedVersion.PRE_UUID) {
-            MessageSender.log("This plugin requires CraftBukkit 1.7.9 or higher!");
-            MessageSender.log("Disabling...");
+            MessageSender.log("&cThis plugin requires CraftBukkit 1.7.9 or higher!");
+            MessageSender.log("&cDisabling...");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        saveDefaultConfig();
+        MessageSender.log("&eEnabling Project Rassilon " + getDescription().getVersion());
 
-        rdh = new RDataHandler(this);
+        MessageSender.log("Loading configuration files...");
+        configs = new EnumMap<RassilonUtils.ConfigurationFile, YamlConfiguration>(RassilonUtils.ConfigurationFile.class);
+        for (RassilonUtils.ConfigurationFile cf: values()) {
+            File f = new File(getDataFolder(), cf.getFileName());
 
-        rm = new RegenManager(this, rdh);
+            if (!f.exists()) {
+                f.getParentFile().mkdirs();
+                RassilonUtils.copy(getResource(cf.getFileName()), f);
+            }
+
+            YamlConfiguration c = new YamlConfiguration();
+            try {
+                c.load(f);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            configs.put(cf, c);
+        }
+
+        MessageSender.log("Initialising dataset...");
+        tdh = new TimelordDataHandler(this);
+
+        MessageSender.log("Loading regeneration framework...");
+        rm = new RegenManager(this, tdh);
 
         // --- Config check ---
-        if (getConfig().getDouble("settings.config-version", -1.0D) != Constants.CONFIG_VERSION) {
+        // TODO Reimplement next time configs change
+        /*if (getConfig(RassilonUtils.ConfigurationFile.CORE).getDouble("core.configVersion", -1.0D) != Constants.CONFIG_VERSION) {
             String old = getConfig().getString("settings.config-version", "OLD");
             MessageSender.log("&cIncompatible config detected! Renaming it to config-" + old + ".yml");
             MessageSender.log("&cA new config has been created, please transfer your settings.");
@@ -86,29 +118,37 @@ public class ProjectRassilon extends JavaPlugin {
             } catch (IOException ex) {
                 MessageSender.logStackTrace(ex);
             }
-            saveResource("config.yml", true);
-        }
+            saveResource("core.yml", true);
+        } */
 
         // --- MCStats submission ---
-        if (getConfig().getBoolean("settings.general.stats")) {
+        if (getConfig(CORE).getBoolean("core.general.stats")) {
             try {
-                Metrics metrics = new Metrics(this);
-                metrics.start();
-            } catch (IOException e) {
-                // Failed to submit the stats :-(
+                //MessageSender.log("Starting Metrics..."); TODO fix CNF
+                //Metrics metrics = new Metrics(this);
+                //metrics.start();
+            } catch (Exception e) {
+                MessageSender.logStackTrace(e);
             }
         }
 
-        getServer().getPluginManager().registerEvents(new PlayerListener(this, rdh, rm), this);
+        MessageSender.log("Calculating scoreboards...");
+        rsm = new RScoreboardManager(this, tdh);
 
-        getCommand("pr").setExecutor(new BaseCommandExecutor(this, rdh, rm));
-        getCommand("regen").setExecutor(new RegenCommandExecutor(this, rdh, rm));
+        MessageSender.log("Initialising listeners...");
+        getServer().getPluginManager().registerEvents(new PlayerListener(this, tdh, rm, rsm), this);
+
+        MessageSender.log("Registering commands...");
+        getCommand("pr").setExecutor(new BaseCommandExecutor(this, tdh, rm, rsm));
+        getCommand("regen").setExecutor(new RegenCommandExecutor(this, tdh, rm, rsm));
 
         getCommand("pr").setTabCompleter(new BaseCommandTabCompleter(this));
         getCommand("regen").setTabCompleter(new RegenCommandTabCompleter(this));
 
-        ra = new RassilonAPI(this, rdh, rm);
+        MessageSender.log("Loading API...");
+        ra = new RassilonAPI(this, tdh, rm);
 
+        MessageSender.log("&eProject Rassilon has been successfully enabled!");
     }
 
     /**
@@ -116,7 +156,49 @@ public class ProjectRassilon extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        //Nothing here right now...
+        MessageSender.log("&eDisabling Project Rassilon " + getDescription().getVersion());
+
+        tdh.writeAllToDB();
+
+        MessageSender.log("&eProject Rassilon has been successfully disabled!");
+    }
+
+    @Deprecated
+    @Override
+    public YamlConfiguration getConfig() {
+        return configs.get(CORE);
+    }
+
+    public YamlConfiguration getConfig(RassilonUtils.ConfigurationFile cf) {
+        return configs.get(cf);
+    }
+
+    @Deprecated
+    @Override
+    public void reloadConfig() {
+        throw new UnsupportedOperationException(); //THIS SHOULD NEVER BE CALLED
+    }
+
+    public void reloadConfigs() {
+        configs.clear();
+
+        for (RassilonUtils.ConfigurationFile cf: values()) {
+            File f = new File(getDataFolder(), cf.getFileName());
+
+            if (!f.exists()) {
+                f.getParentFile().mkdirs();
+                RassilonUtils.copy(getResource(cf.getFileName()), f);
+            }
+
+            YamlConfiguration c = new YamlConfiguration();
+            try {
+                c.load(f);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            configs.put(cf, c);
+        }
     }
 
     /**
@@ -126,6 +208,7 @@ public class ProjectRassilon extends JavaPlugin {
      *
      * @since 1.3
      */
+    @SuppressWarnings("unused")
     public RassilonAPI getAPI() {
         return ra;
     }

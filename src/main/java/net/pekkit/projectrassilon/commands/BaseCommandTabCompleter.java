@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.google.common.collect.ImmutableList.of;
+import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.REGEN;
 import static org.bukkit.util.StringUtil.copyPartialMatches;
 
 /**
@@ -70,8 +71,7 @@ public class BaseCommandTabCompleter implements TabCompleter {
             return (part.size() > 0) ? part : null;
         } else if (args.length == 2) {
             String sub = args[0];
-            if (sub.equalsIgnoreCase("view") || sub.equalsIgnoreCase("set") || sub.equalsIgnoreCase("force") || sub.equalsIgnoreCase("block") 
-                    || sub.equalsIgnoreCase("v") || sub.equalsIgnoreCase("s")|| sub.equalsIgnoreCase("f")|| sub.equalsIgnoreCase("b")) {
+            if (sub.equalsIgnoreCase("view") || sub.equalsIgnoreCase("set") || sub.equalsIgnoreCase("force") || sub.equalsIgnoreCase("block")) {
                 return null;
             } else {
                 return of();
@@ -81,7 +81,8 @@ public class BaseCommandTabCompleter implements TabCompleter {
             if (sub.equalsIgnoreCase("block")) {
                 return of("true", "false");
             } else if (sub.equalsIgnoreCase("set")) {
-                return of("0", plugin.getConfig().getString("settings.regen.count"));
+                return of("0", plugin.getConfig(REGEN).getString("regen.costs.regenCost", "120"),
+                        plugin.getConfig(REGEN).getString("regen.costs.startingEnergy", "1500"));
             } else {
                 return of();
             }

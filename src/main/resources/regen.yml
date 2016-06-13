@@ -1,0 +1,21 @@
+# This configuration file allows you to finely tune each aspect of regeneration.
+# Advanced users only!
+regen:
+  costs:
+    startingEnergy: 1500
+    regenCost: 120
+    healCostPerHP: 5
+    maximumHealCost: 100
+  durations:
+    preRegenLength: 100
+    regenLength: 150
+    postRegenLength: 6000
+  effects:
+    preRegenEffects: []
+    preRegenMalfunctionEffects: []
+    regenEffects: []
+    regenMalfunctionEffects: []
+    postRegenEffects: []
+    postRegenMalfunctionEffects: []
+    effectsRemovedInZeroRoom: []
+

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -26,13 +26,10 @@ package net.pekkit.projectrassilon.api;
 
 import net.pekkit.projectrassilon.ProjectRassilon;
 import net.pekkit.projectrassilon.RegenManager;
-import net.pekkit.projectrassilon.data.RDataHandler;
-import net.pekkit.projectrassilon.locale.MessageSender;
-import net.pekkit.projectrassilon.util.RegenTask;
+import net.pekkit.projectrassilon.data.TimelordDataHandler;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 
-import static org.bukkit.Bukkit.getScheduler;
+import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.REGEN;
 
 /**
  * The Regenerator is used to make players regenerate.
@@ -41,12 +38,12 @@ import static org.bukkit.Bukkit.getScheduler;
 public class Regenerator {
 
     private final ProjectRassilon plugin;
-    private final RDataHandler rdh;
+    private final TimelordDataHandler tdh;
     private final RegenManager rm;
 
-    Regenerator(ProjectRassilon par1, RDataHandler par2, RegenManager par3) {
+    Regenerator(ProjectRassilon par1, TimelordDataHandler par2, RegenManager par3) {
         plugin = par1;
-        rdh = par2;
+        tdh = par2;
         rm = par3;
     }
 
@@ -57,14 +54,14 @@ public class Regenerator {
      */
     public int regenerate(Player player) {
         // --- BEGIN REGEN CHECKS ---   
-        if (rdh.getPlayerRegenCount(player.getUniqueId()) <= 0) { //Not enough regeneration energy
+        if (tdh.getTimelordData(player).getRegenEnergy() <= plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120)) { //Not enough regeneration energy
             return -1;
         }
-        if (rdh.getPlayerRegenBlock(player.getUniqueId())) { //Blocking regeneration
-            rdh.setPlayerRegenBlock(player.getUniqueId(), false);
+        if (tdh.getTimelordData(player).getRegenBlock()) { //Blocking regeneration
+            tdh.getTimelordData(player).setRegenBlock(false);
             return -2;
         }
-        if (rdh.getPlayerRegenStatus(player.getUniqueId())) { //Already regenerating
+        if (tdh.getTimelordData(player).getRegenStatus()) { //Already regenerating
             return -3;
         }
         if (player.getLocation().getY() <= 0) { //In the void

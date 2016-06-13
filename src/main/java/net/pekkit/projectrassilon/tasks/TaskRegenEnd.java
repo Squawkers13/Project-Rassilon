@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,7 +24,8 @@
 
 package net.pekkit.projectrassilon.tasks;
 
-import net.pekkit.projectrassilon.data.RDataHandler;
+import net.pekkit.projectrassilon.data.RTimelordData;
+import net.pekkit.projectrassilon.data.TimelordDataHandler;
 import net.pekkit.projectrassilon.util.RegenTask;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -36,7 +37,7 @@ import static org.bukkit.Bukkit.getScheduler;
  * @author Squawkers13
  */
 public class TaskRegenEnd extends BukkitRunnable {
-    private final RDataHandler rdh;
+    private final TimelordDataHandler tdh;
     private final Player player;
 
     /**
@@ -44,21 +45,23 @@ public class TaskRegenEnd extends BukkitRunnable {
      * @param par1
      * @param par2
      */
-    public TaskRegenEnd(RDataHandler par1, Player par2) {
-        rdh = par1;
+    public TaskRegenEnd(TimelordDataHandler par1, Player par2) {
+        tdh = par1;
         player = par2;
 
     }
 
     @Override
     public void run() {
-        int postRegenEffects = rdh.getPlayerTask(player.getUniqueId(), RegenTask.POST_REGEN_EFFECTS);
+        RTimelordData p = tdh.getTimelordData(player);
+
+        int postRegenEffects = p.getRegenTask(RegenTask.POST_REGEN_EFFECTS);
         getScheduler().cancelTask(postRegenEffects);
-        rdh.setPlayerTask(player.getUniqueId(), RegenTask.POST_REGEN_EFFECTS, 0);
+        p.setRegenTask(RegenTask.POST_REGEN_EFFECTS, 0);
 
-        rdh.setPlayerRegenStatus(player.getUniqueId(), false);
+        p.setRegenStatus(false);
 
-        rdh.setPlayerTask(player.getUniqueId(), RegenTask.REGEN_END, 0);
+        p.setRegenTask(RegenTask.REGEN_END, 0);
     }
 
 }

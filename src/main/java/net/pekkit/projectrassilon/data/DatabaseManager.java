@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -29,6 +29,8 @@ import net.pekkit.projectrassilon.util.RegenTask;
 
 import java.io.File;
 import java.sql.*;
+
+import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.REGEN;
 
 /**
  * Database Manager- Manages the database used to store Timelord DNA.
@@ -73,7 +75,7 @@ public class DatabaseManager {
      * Creates the default tables.
      */
     protected void createTables() {
-        update("CREATE TABLE IF NOT EXISTS Regen (UUID TEXT UNIQUE NOT NULL PRIMARY KEY, count INTEGER DEFAULT " + plugin.getConfig().getInt("settings.regen.count") + ", block INTEGER DEFAULT 0, incarnation INTEGER DEFAULT 1);");
+        update("CREATE TABLE IF NOT EXISTS Regen (UUID TEXT UNIQUE NOT NULL PRIMARY KEY, energy INTEGER DEFAULT " + plugin.getConfig(REGEN).getInt("regen.costs.startingEnergy") + ", block INTEGER DEFAULT 0, incarnation INTEGER DEFAULT 1);");
 
         StringBuilder taskQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Tasks (UUID TEXT UNIQUE NOT NULL PRIMARY KEY");
         for (RegenTask t : RegenTask.values()) {

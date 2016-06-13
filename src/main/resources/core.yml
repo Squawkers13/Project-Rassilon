@@ -1,0 +1,35 @@
+# This is a beta version. Things will change without notice.
+# TODO Most of these setting probably don't work at this stage.
+core:
+    # General plugin settings, not much to do here...
+    general:
+        # Whether to anonymously send some trivial data (version, max players, etc) to the MCStats servers.
+        stats: true
+    # Regeneration settings.
+    regen:
+        # Set this to false if you don't want Time Lords to have a different amount of HP
+        # than regular players or if you use a different plugin to set HP values.
+        modifyTimelordHP: true
+        # The amount of HP that Timelords have.
+        # Requires modifyTimelordHP to be enabled.
+        # 2 HP points are equal to 1 heart.
+        timelordHP: 40.0
+        # Should the amount of regeneration energy a player has remain the same after respawning?
+        energyPersists: false
+        # The chance (out of 100) for regeneration to "malfunction".
+        # More information about this setting can be found in regen.yml.
+        malfunctionChance: 20
+    tardis:
+        # Whether to remove certain (adverse) status effects from a regenerating player
+        # if they are in a TARDIS Zero Room. Requires eccentric_nz's TARDIS plugin!
+        # More information about this setting can be found in regen.yml
+        removeEffectsInZeroRoom: true
+    # DO NOT TOUCH THIS!!!
+    # This is essential to the survival of your configuration settings!
+    configVersion: 1.0
+            
+    
+        
+    
+
+    

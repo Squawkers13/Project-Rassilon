@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2014 Squawkers13 <Squawkers13@pekkit.net>
+ * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ *  all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,7 +24,11 @@
 package net.pekkit.projectrassilon.commands;
 
 import net.pekkit.projectrassilon.ProjectRassilon;
-import net.pekkit.projectrassilon.data.RDataHandler;
+import net.pekkit.projectrassilon.RScoreboardManager;
+import net.pekkit.projectrassilon.RegenManager;
+import net.pekkit.projectrassilon.api.TimelordData;
+import net.pekkit.projectrassilon.data.RTimelordData;
+import net.pekkit.projectrassilon.data.TimelordDataHandler;
 import net.pekkit.projectrassilon.locale.MessageSender;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -32,7 +36,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import net.pekkit.projectrassilon.RegenManager;
+import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.REGEN;
 
 /**
  *
@@ -41,18 +45,20 @@ import net.pekkit.projectrassilon.RegenManager;
 public class RegenCommandExecutor implements CommandExecutor {
 
     private final ProjectRassilon plugin;
-    private RDataHandler rdh;
+    private TimelordDataHandler tdh;
     private final RegenManager rm;
+    private RScoreboardManager rsm;
 
     /**
      *
      * @param instance
-     * @param rdh
+     * @param tdh
      */
-    public RegenCommandExecutor(ProjectRassilon instance, RDataHandler rdh, RegenManager rm) {
+    public RegenCommandExecutor(ProjectRassilon instance, TimelordDataHandler tdh, RegenManager rm, RScoreboardManager rsm) {
         this.plugin = instance;
-        this.rdh = rdh;
+        this.tdh = tdh;
         this.rm = rm;
+        this.rsm = rsm;
     }
 
     /**
@@ -69,139 +75,123 @@ public class RegenCommandExecutor implements CommandExecutor {
         if ((sender instanceof Player)) {
             player = (Player) sender;
         } else {
-            MessageSender.sendMsg(sender, "&cYou must be a Time Lord to do that!"); // Player = Time Lord to console
+            MessageSender.sendPrefixMsg(sender, "&cYou must be a Time Lord to do that!"); // Player = Time Lord to console
             return true;
         }
         if (!sender.hasPermission("projectrassilon.regen.timelord")) {
-            MessageSender.sendMsg(sender, "&cYou must be a Time Lord do that!");
+            MessageSender.sendPrefixMsg(sender, "&cYou must be a Time Lord do that!");
             return true;
         }
         if (args.length == 0) {
-            statusCommand(player);
-        } else if (args[0].equalsIgnoreCase("?")) {
-            helpCommand(player);
-        } else if (args[0].equalsIgnoreCase("force") || args[0].equalsIgnoreCase("f")) {
-            forceCommand(player);
-        } else if (args[0].equalsIgnoreCase("block") || args[0].equalsIgnoreCase("b")) {
-            blockCommand(player, args);
+            showRegenStatus(player);
+        } else if (args[0].equalsIgnoreCase("info")) {
+            showRegenInfo(player);
+        } else if (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
+            showCommandList(player);
+        } else if (args[0].equalsIgnoreCase("costs")) {
+            showRegenCosts(player);
+        } else if (args[0].equalsIgnoreCase("force")) {
+            forceRegen(player);
+        } else if (args[0].equalsIgnoreCase("block")) {
+            modifyRegenBlock(player, args);
         } else { //invalid args
-            MessageSender.sendMsg(sender, "&cI'm not sure what you mean: &e" + args[0]);
-            MessageSender.sendMsg(sender, "&cType &e/regen ?&c for help.");
+            MessageSender.sendPrefixMsg(sender, "&cI'm not sure what you mean by &e" + args[0]);
+            MessageSender.sendPrefixMsg(sender, "Type &e/regen ?&c for more options.");
         }
         return true;
     }
 
-    public void statusCommand(Player player) {
-        MessageSender.sendMsg(player, "&6---------- &cRegeneration Status: &e" + player.getName() + " &6----------");
-        if (this.rdh.getPlayerRegenCount(player.getUniqueId()) != 0) {
-            if (this.rdh.getPlayerRegenCount(player.getUniqueId()) != 1) {
-                MessageSender.sendMsg(player, "&cYou may regenerate &e" + this.rdh.getPlayerRegenCount(player.getUniqueId()) + "&c more times.");
-            } else {
-                MessageSender.sendMsg(player, "&cYou may regenerate &e" + this.rdh.getPlayerRegenCount(player.getUniqueId()) + "&c more time.");
-            }
-        } else {
-            MessageSender.sendMsg(player, "&cYou &ecannot &cregenerate.");
-        }
-        MessageSender.sendMsg(player, "&cYou are on your &e" + this.rdh.getPlayerIncarnationCount(player.getUniqueId()) 
-                + getIncarnationSuffix(this.rdh.getPlayerIncarnationCount(player.getUniqueId())) + " &cincarnation.");
-        
-        if (rdh.getPlayerRegenStatus(player.getUniqueId())) {
-            MessageSender.sendMsg(player, "&cYou are currently regenerating.");
+    public void showRegenStatus(Player player) {
+        rsm.setScoreboardForPlayer(player, RScoreboardManager.SidebarType.REGEN_STATUS);
+        MessageSender.sendPrefixMsg(player, "&cType &e/regen info&c for an explanation of this.");
+    }
 
-        } else {
-            MessageSender.sendMsg(player, "&cYou are currently &enot &cregenerating.");
-        }
-        if (rdh.getPlayerRegenBlock(player.getUniqueId())) {
-            MessageSender.sendMsg(player, "&cYou are currently blocking regeneration.");
-        } else {
-            MessageSender.sendMsg(player, "&cYou are currently &enot &cblocking regeneration.");
-        }
-        MessageSender.sendMsg(player, "&cType &e/regen ? &cfor help.");
+    public void showRegenInfo(Player player) {
+        MessageSender.sendPrefixMsg(player, "&4This command will be implemented soon!"); //TODO explanation
+        MessageSender.sendPrefixMsg(player, "&cType &e/regen ?&c for a list of commands.");
+    }
+
+    public void showRegenCosts(Player player) {
+        rsm.setScoreboardForPlayer(player, RScoreboardManager.SidebarType.REGEN_COSTS);
+        MessageSender.sendPrefixMsg(player, "&cType &e/regen info&c for an explanation of this.");
     }
 
     /**
      *
      * @param player
-     * @param label
      */
-    public void helpCommand(Player player) {
-        MessageSender.sendMsg(player, "&6---------- &cRegeneration: &eHelp &6----------");
+    public void showCommandList(Player player) {
+        MessageSender.sendMsg(player, "&6---------- &cRegeneration: &eCommands &6----------");
         MessageSender.sendMsg(player, "&c/regen &c- View your regeneration stats.");
-        if (player.hasPermission("projectrassilon.regen.force")) {
-            MessageSender.sendMsg(player, "&c/regen &ef,force &c- Force regeneration.");
-        }
-        if (player.hasPermission("projectrassilon.regen.block")) {
-            MessageSender.sendMsg(player, "&c/regen &eb,block &6<true|false> &c- Block your next regneration.");
-        }
+        MessageSender.sendMsg(player, "&c/regen &einfo &c- View information about how regeneration works.");
+        MessageSender.sendMsg(player, "&c/regen &ecosts &c- View the costs of regeneration.");
+        MessageSender.sendMsg(player, "&6--------------------------------------------------");
+        MessageSender.sendMsg(player, "&c/regen &eforce &c- Force yourself to regenerate.");
+        MessageSender.sendMsg(player, "&c/regen &eblock &6<true|false> &c- Block or unblock regeneration.");
+        MessageSender.sendMsg(player, "&6--------------------------------------------------");
+
     }
 
-    private void forceCommand(Player player) {
+    private void forceRegen(Player player) {
+        TimelordData data = tdh.getTimelordData(player);
+
         if (!player.hasPermission("projectrassilon.regen.force")) {
-            MessageSender.sendMsg(player, "&cYou don't have permission to do that!");
+            MessageSender.sendPrefixMsg(player, "&cYou don't have permission to do that!");
             return;
         }
-        if (this.rdh.getPlayerRegenCount(player.getUniqueId()) <= 0) {
-            MessageSender.sendMsg(player, "&cYou cannot regenerate!");
+        if (data.getRegenEnergy() < plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120)) { //Not enough regeneration energy
+            MessageSender.sendPrefixMsg(player, "&cYou don't have enough regeneration energy!");
             return;
         }
-        if (this.rdh.getPlayerRegenStatus(player.getUniqueId())) {
-            MessageSender.sendMsg(player, "&cYou're already regenerating!");
+        if (data.getRegenStatus()) {
+            MessageSender.sendPrefixMsg(player, "&cYou're already regenerating!");
             return;
         }
-        if (rdh.getPlayerRegenBlock(player.getUniqueId())) {
-            MessageSender.sendMsg(player, "&cYou must unblock regeneration first!");
+        if (data.getRegenBlock()) {
+            MessageSender.sendPrefixMsg(player, "&cYou must unblock regeneration first!");
             return;
         }
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
-            MessageSender.sendMsg(player, "&cYou cannot regenerate in creative mode!");
+            MessageSender.sendPrefixMsg(player, "&cYou cannot regenerate in creative mode!");
             return;
         }
         if (player.getLocation().getY() <= 0) { //In the void
-            MessageSender.sendMsg(player, "&cYou cannot regenerate in the void!");
+            MessageSender.sendPrefixMsg(player, "&cYou cannot regenerate in the void!");
             return;
         }
         MessageSender.log(player.getName() + " forced regeneration");
 
         // --- END REGEN CHECKS ---
+        MessageSender.sendPrefixMsg(player, "&eYou used " + plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120) + " regeneration energy.");
         rm.preRegen(player);
     }
 
-    private void blockCommand(Player player, String[] args) {
+    private void modifyRegenBlock(Player player, String[] args) {
+        RTimelordData data = tdh.getTimelordData(player);
+
         if (!player.hasPermission("projectrassilon.regen.block")) {
-            MessageSender.sendMsg(player, "&cYou don't have permission to do that!");
+            MessageSender.sendPrefixMsg(player, "&cYou don't have permission to do that!");
             return;
         }
-        if (args.length == 1) {
-            if (rdh.getPlayerRegenBlock(player.getUniqueId()) == false) {
-                rdh.setPlayerRegenBlock(player.getUniqueId(), true);
-                MessageSender.sendMsg(player, "&cYou are now blocking your next regeneration.");
-            } else if (rdh.getPlayerRegenBlock(player.getUniqueId()) == true) {
-                rdh.setPlayerRegenBlock(player.getUniqueId(), false);
-                MessageSender.sendMsg(player, "&eYou are no longer blocking your next regeneration.");
+        if (args.length == 1) { //Toggle command
+            if (!data.getRegenBlock()) { //Not blocking
+                data.setRegenBlock(true);
+                MessageSender.sendPrefixMsg(player, "&cYou are now blocking your next regeneration.");
+            } else if (data.getRegenBlock()) { //Blocking
+                data.setRegenBlock(false);
+                MessageSender.sendPrefixMsg(player, "&eYou are no longer blocking your next regeneration.");
             }
-        } else if (args.length == 2) {
+        } else if (args.length == 2) { //Additional parameters specified
             if (!args[1].equalsIgnoreCase("true") && !args[1].equalsIgnoreCase("false")) {
-                MessageSender.sendMsg(player, "&cBlock your next regeneration.");
-                MessageSender.sendMsg(player, "&c/regen &eblock &6<true|false>");
+                MessageSender.sendPrefixMsg(player, "&cBlock your next regeneration.");
+                MessageSender.sendPrefixMsg(player, "&c/regen &eblock &6<true|false>");
             } else if (args[1].equalsIgnoreCase("true")) {
-                rdh.setPlayerRegenBlock(player.getUniqueId(), true);
-                MessageSender.sendMsg(player, "&cYou are now blocking your next regeneration.");
+                data.setRegenBlock(true);
+                MessageSender.sendPrefixMsg(player, "&cYou are now blocking your next regeneration.");
             } else if (args[1].equalsIgnoreCase("false")) {
-                rdh.setPlayerRegenBlock(player.getUniqueId(), false);
-                MessageSender.sendMsg(player, "&eYou are no longer blocking your next regeneration.");
+                data.setRegenBlock(false);
+                MessageSender.sendPrefixMsg(player, "&eYou are no longer blocking your next regeneration.");
             }
-        }
-    }
-    
-    private String getIncarnationSuffix(int i) {
-        if (i == 1) {
-            return "st";
-        } else if (i == 2) {
-            return "nd";
-        } else if (i == 3) {
-            return "rd";
-        } else {
-            return "th";
         }
     }
 }
