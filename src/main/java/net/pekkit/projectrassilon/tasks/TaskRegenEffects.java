@@ -27,7 +27,6 @@ package net.pekkit.projectrassilon.tasks;
 import net.pekkit.projectrassilon.ProjectRassilon;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -60,7 +59,8 @@ public class TaskRegenEffects extends BukkitRunnable {
         for (double i = -height; i < height; i += interval) {
             try {
                 Player p = Bukkit.getServer().getPlayer(uuid);
-                //p.playSound(p.getLocation().add(0.0D, i, 0.0D), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 1.0f);
+
+                //p.playSound(p.getLocation().add(0.0D, i, 0.0D), Sound.ENTITY_BLAZE_SHOOT, 1.0f, 1.0f); TODO find a way for player preference to work
                 for (int a = 0; a < intensity; a++) {
                     p.getWorld().playEffect(p.getLocation().add(0.0D, i, 0.0D), Effect.MOBSPAWNER_FLAMES, 0);
                 }

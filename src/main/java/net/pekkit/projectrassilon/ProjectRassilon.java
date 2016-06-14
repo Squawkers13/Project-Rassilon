@@ -33,23 +33,20 @@ import net.pekkit.projectrassilon.listeners.PlayerListener;
 import net.pekkit.projectrassilon.locale.MessageSender;
 import net.pekkit.projectrassilon.util.RassilonUtils;
 import net.pekkit.projectrassilon.util.RassilonUtils.SimplifiedVersion;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.EnumMap;
-import java.util.HashMap;
 
 import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.CORE;
 import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.values;
 
 /**
- * Project Rassilon: Become a Time Lord and regenerate (among other things)
+ * Project Rassilon: Become a Time Lord and regenerate!
  *
- * @author Squawkers13
+ * @author Doctor Squawk
  * @version 2.0
  */
 public class ProjectRassilon extends JavaPlugin {
@@ -124,9 +121,9 @@ public class ProjectRassilon extends JavaPlugin {
         // --- MCStats submission ---
         if (getConfig(CORE).getBoolean("core.general.stats")) {
             try {
-                //MessageSender.log("Starting Metrics..."); TODO fix CNF
-                //Metrics metrics = new Metrics(this);
-                //metrics.start();
+                MessageSender.log("Starting Metrics...");
+                Metrics metrics = new Metrics(this);
+                metrics.start();
             } catch (Exception e) {
                 MessageSender.logStackTrace(e);
             }

@@ -91,7 +91,7 @@ public class RegenManager {
         p.setRegenTask(RegenTask.REGEN_EFFECTS, regenEffects.getTaskId());
 
         //Play the "regeneration" sound to all players nearby ;)
-        player.getLocation().getWorld().playSound(player.getLocation(), "regeneration", 1.0f, 1.0f);
+        player.getLocation().getWorld().playSound(player.getLocation(), "regeneration", 2.0f, 1.0f);
 
         player.setHealth(player.getMaxHealth());
         player.setNoDamageTicks(150);
