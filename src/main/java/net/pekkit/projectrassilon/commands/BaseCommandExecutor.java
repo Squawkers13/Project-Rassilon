@@ -26,18 +26,14 @@ package net.pekkit.projectrassilon.commands;
 import net.pekkit.projectrassilon.ProjectRassilon;
 import net.pekkit.projectrassilon.RScoreboardManager;
 import net.pekkit.projectrassilon.RegenManager;
-import net.pekkit.projectrassilon.api.TimelordData;
 import net.pekkit.projectrassilon.data.RTimelordData;
 import net.pekkit.projectrassilon.data.TimelordDataHandler;
-import net.pekkit.projectrassilon.listeners.PlayerListener;
 import net.pekkit.projectrassilon.locale.MessageSender;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.REGEN;
 
@@ -66,6 +62,8 @@ public class BaseCommandExecutor implements CommandExecutor {
             MessageSender.sendMsg(sender, "&6Project Rassilon &e" + plugin.getDescription().getVersion() + "&c, created by &eDoctor Squawk");
             if (plugin.getDescription().getVersion().contains("SNAPSHOT")) {
                 MessageSender.sendMsg(sender, "&4Snapshot build! Proceed with caution!");
+            } else if (plugin.getDescription().getVersion().contains("PREVIEW")) {
+                MessageSender.sendMsg(sender, "&cThis is a preview build- use at your own risk!");
             }
             MessageSender.sendMsg(sender, "&cType &e/pr ? &cfor more options.");
         } else if (args[0].equalsIgnoreCase("?")) {
