@@ -27,7 +27,7 @@ import net.pekkit.projectrassilon.ProjectRassilon;
 import net.pekkit.projectrassilon.locale.MessageSender;
 import net.pekkit.projectrassilon.nms.BountifulHelper;
 import net.pekkit.projectrassilon.nms.HelperV1_8_R1;
-import net.pekkit.projectrassilon.nms.INMSHelper;
+import net.pekkit.projectrassilon.nms.InterfaceNMSHelper;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
  */
 public class RassilonUtils {
 
-    private static INMSHelper nms;
+    private static InterfaceNMSHelper nms;
 
     public static final SimplifiedVersion getCurrentVersion(ProjectRassilon plugin) {
         Version server = getServerVersion(plugin.getServer().getVersion());
@@ -99,7 +99,7 @@ public class RassilonUtils {
     }
 
 
-    public static INMSHelper getNMSHelper() {
+    public static InterfaceNMSHelper getNMSHelper() {
         if (nms == null) {
             String version = Bukkit.getServer().getClass().getPackage().getName().replace(".",  ",").split(",")[3];
 

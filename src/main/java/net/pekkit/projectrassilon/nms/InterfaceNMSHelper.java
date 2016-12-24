@@ -34,9 +34,9 @@ import java.lang.reflect.Method;
 /**
  * This is the class that makes the reflection possible! :(
  */
-public abstract class INMSHelper {
+public abstract class InterfaceNMSHelper {
 
-    public INMSHelper(String nms) {
+    public InterfaceNMSHelper(String nms) {
         nmsVersion = nms;
     }
 

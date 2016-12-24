@@ -24,7 +24,6 @@
 
 package net.pekkit.projectrassilon.nms;
 
-import net.minecraft.server.v1_10_R1.PacketPlayOutTitle;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
@@ -33,7 +32,7 @@ import java.lang.reflect.Method;
 /**
  * Reflection is Evil: Part 2 (This works on all new versions)
  */
-public class BountifulHelper extends INMSHelper {
+public class BountifulHelper extends InterfaceNMSHelper {
 
     public BountifulHelper(String nms) {
         super(nms);

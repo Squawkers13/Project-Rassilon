@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 /**
  * Reflection is Evil: Part 1 (for specific old version)
  */
-public class HelperV1_8_R1 extends INMSHelper {
+public class HelperV1_8_R1 extends InterfaceNMSHelper {
 
     public HelperV1_8_R1() {
         super("v1_8_R1");
