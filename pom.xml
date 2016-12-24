@@ -59,12 +59,6 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>1.11.2-R0.1-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
             <groupId>org.mcstats.bukkit</groupId>
             <artifactId>metrics</artifactId>
             <version>LATEST</version>
