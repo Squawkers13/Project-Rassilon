@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
+ * Copyright (c) 2016 Doctor Squawk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -77,7 +77,7 @@ public class MessageSender {
      * @param sender The CommandSender to send the message to.
      * @param msg The message to be sent.
      *
-     * @see sendMsg
+     * @see #sendMsg(CommandSender, String)
      *
      * @since 2.0
      */
@@ -93,7 +93,7 @@ public class MessageSender {
      * @param msg The message to be sent.
      * @param pagination Whether to paginate the message or not.
      *
-     * @see sendMsg
+     * @see #sendMsg(CommandSender, String)
      *
      * @since 1.2
      */
@@ -108,7 +108,7 @@ public class MessageSender {
      *
      * @param msg The message to be sent to the console.
      *
-     * @see sendPluginMsg
+     * @see #sendPluginMsg(CommandSender, String, boolean)
      *
      * @since 1.2
      */
@@ -122,7 +122,7 @@ public class MessageSender {
      *
      * @param ex The Exception to log a stacktrace for.
      *
-     * @see log
+     * @see #log(String)
      *
      * @since 1.2
      */

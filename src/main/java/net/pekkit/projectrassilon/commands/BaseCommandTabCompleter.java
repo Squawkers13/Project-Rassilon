@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
+ * Copyright (c) 2016 Doctor Squawk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -65,7 +65,6 @@ public class BaseCommandTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmd, String alias, String[] args) {
         // Remember that we can return null to default to online player name matching  
-        String lastArg = args[args.length - 1];
         if (args.length <= 1) {
             List<String> part = partial(args[0], ROOT_SUBS);
             return (part.size() > 0) ? part : null;

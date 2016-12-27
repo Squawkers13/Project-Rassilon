@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
+ * Copyright (c) 2016 Doctor Squawk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -38,16 +38,14 @@ import static com.google.common.collect.ImmutableList.of;
 import static org.bukkit.util.StringUtil.copyPartialMatches;
 
 /**
- *
  * @author Squawkers13
  */
 public class RegenCommandTabCompleter implements TabCompleter {
 
     private final ProjectRassilon plugin;
-    List<String> ROOT_SUBS = ImmutableList.of("help", "info" , "costs", "force", "block", "heal");
+    List<String> ROOT_SUBS = ImmutableList.of("help", "info", "costs", "force", "block", "heal");
 
     /**
-     *
      * @param instance
      */
     public RegenCommandTabCompleter(ProjectRassilon instance) {
@@ -55,7 +53,6 @@ public class RegenCommandTabCompleter implements TabCompleter {
     }
 
     /**
-     *
      * @param cs
      * @param cmnd
      * @param alias
@@ -65,8 +62,6 @@ public class RegenCommandTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmnd, String alias, String[] args) {
         // Remember that we can return null to default to online player name matching
-        String lastArg = args[args.length - 1];
-
         if (args.length <= 1) {
             List<String> part = partial(args[0], ROOT_SUBS);
             return (part.size() > 0) ? part : null;
@@ -74,14 +69,14 @@ public class RegenCommandTabCompleter implements TabCompleter {
             String sub = args[0];
             if (sub.equalsIgnoreCase("block")) {
                 return of("true", "false");
+            } else if (sub.equalsIgnoreCase("info")) {
+                return of("2");
             } else {
                 return of();
             }
         }
         return of();
     }
-
-
 
 
     private List<String> partial(String token, Collection<String> from) {

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
+ * Copyright (c) 2016 Doctor Squawk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -142,7 +142,7 @@ public class BaseCommandExecutor implements CommandExecutor {
 
         OfflinePlayer player = plugin.getServer().getOfflinePlayer(args[1]);
         if (!player.hasPlayedBefore()) {
-            MessageSender.sendPrefixMsg(sender, "&cWe have no record of that Time Lord!");
+            MessageSender.sendPrefixMsg(sender, "&cWe have no record of that player!");
             return;
         }
 

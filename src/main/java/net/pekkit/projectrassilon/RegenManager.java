@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
+ * Copyright (c) 2016 Doctor Squawk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package net.pekkit.projectrassilon;
 
 import net.pekkit.projectrassilon.data.RTimelordData;
@@ -35,7 +36,10 @@ import net.pekkit.projectrassilon.util.RegenTask;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionEffectTypeWrapper;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.util.List;
 
 import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.REGEN;
 import static org.bukkit.Bukkit.getScheduler;
@@ -67,6 +71,16 @@ public class RegenManager {
 
         p.setRegenStatus(true);
         player.setNoDamageTicks(100);
+        player.setInvulnerable(true);
+
+        for (String effect : plugin.getConfig(REGEN).getStringList("regen.effects.preRegenEffects")) {
+            String[] substrings = effect.split(":");
+
+            PotionEffectType effectType = PotionEffectType.getByName(substrings[0]);
+            int effectAmplifier = Integer.parseInt(substrings[1]);
+
+            player.addPotionEffect(new PotionEffect(effectType, plugin.getConfig(REGEN).getInt("regen.durations.preRegenLength", 100), effectAmplifier, true), true);
+        }
 
         BukkitTask preRegenEffects = new TaskPreRegenEffects(plugin, player.getUniqueId()).runTaskTimer(plugin, 20L, 20L);
         p.setRegenTask(RegenTask.PRE_REGEN_EFFECTS, preRegenEffects.getTaskId());
@@ -103,7 +117,8 @@ public class RegenManager {
         }
 
         if (RassilonUtils.getCurrentVersion(plugin).getIndex() >= 2) { //Bountiful is enabled :)
-            RassilonUtils.getNMSHelper().sendTitle(player, "&6You have regenerated", "", 3, 7, 3);
+            RassilonUtils.getNMSHelper().sendTitle(player, "&6You have regenerated",
+                    RassilonUtils.getRegenerationQuote(), 3, 7, 3);
         } else {
             MessageSender.sendMsg(player, "&6You have regenerated");
         }
@@ -113,7 +128,14 @@ public class RegenManager {
 
         p.setRegenEnergy(regen);
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, plugin.getConfig(REGEN).getInt("regen.durations.regenLength", 150), 3, true), true);
+        for (String effect : plugin.getConfig(REGEN).getStringList("regen.effects.regenEffects")) {
+            String[] substrings = effect.split(":");
+
+            PotionEffectType effectType = PotionEffectType.getByName(substrings[0]);
+            int effectAmplifier = Integer.parseInt(substrings[1]);
+
+            player.addPotionEffect(new PotionEffect(effectType, plugin.getConfig(REGEN).getInt("regen.durations.regenLength", 150), effectAmplifier, true), true);
+        }
         // --- END REGENERATION ---
 
         BukkitTask postRegen = new TaskPostRegenDelay(tdh, this, player).runTaskLater(plugin, plugin.getConfig(REGEN).getInt("regen.durations.regenLength", 150));
@@ -136,6 +158,7 @@ public class RegenManager {
 
         player.setHealth(player.getMaxHealth());
 
+        player.setInvulnerable(false);
         player.setFallDistance(0);
         player.setFireTicks(1);
         
@@ -144,13 +167,17 @@ public class RegenManager {
         BukkitTask postRegenEffects = new TaskPostRegenEffects(plugin, player.getUniqueId()).runTaskTimer(plugin, 100L, 100L);
         p.setRegenTask(RegenTask.POST_REGEN_EFFECTS, postRegenEffects.getTaskId());
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200), 2, true), true);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200), 3, true), true);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200) / 2, 4, true), true);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200) / 2, 1, true), true);
+        for (String effect : plugin.getConfig(REGEN).getStringList("regen.effects.postRegenEffects")) {
+            String[] substrings = effect.split(":");
+
+            PotionEffectType effectType = PotionEffectType.getByName(substrings[0]);
+            int effectAmplifier = Integer.parseInt(substrings[1]);
+
+            player.addPotionEffect(new PotionEffect(effectType, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 6000), effectAmplifier, true), true);
+        }
         // --- END POST-REGENERATION ---
 
-        BukkitTask regenEnd = new TaskRegenEnd(tdh, player).runTaskLater(plugin, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200));
+        BukkitTask regenEnd = new TaskRegenEnd(tdh, player).runTaskLater(plugin, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 6000));
         p.setRegenTask(RegenTask.REGEN_END, regenEnd.getTaskId());
     }
 

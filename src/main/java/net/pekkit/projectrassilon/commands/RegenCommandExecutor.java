@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
+ * Copyright (c) 2016 Doctor Squawk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -85,7 +85,7 @@ public class RegenCommandExecutor implements CommandExecutor {
         if (args.length == 0) {
             showRegenStatus(player);
         } else if (args[0].equalsIgnoreCase("info")) {
-            showRegenInfo(player);
+            showRegenInfo(player, args);
         } else if (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?")) {
             showCommandList(player);
         } else if (args[0].equalsIgnoreCase("costs")) {
@@ -108,14 +108,30 @@ public class RegenCommandExecutor implements CommandExecutor {
         MessageSender.sendPrefixMsg(player, "&cType &e/regen info&c for an explanation of this.");
     }
 
-    public void showRegenInfo(Player player) {
-        MessageSender.sendPrefixMsg(player, "&4This command will be implemented soon!"); //TODO explanation
-        MessageSender.sendPrefixMsg(player, "&cType &e/regen ?&c for a list of commands.");
+    public void showRegenInfo(Player player, String [] args) {
+        if (args.length == 1) {
+            MessageSender.sendMsg(player, "&6---------- &cRegeneration: &eInfo &6----------");
+            MessageSender.sendMsg(player, "&cYou are a &eTime Lord&c - a powerful being with the ability to &eregenerate&c. " +
+                    "On the verge of death, you can call upon your &eregeneration energy&c to heal your body in a chaotic explosion of &eawesome power&c. " +
+                    "However, your supply of this energy &eis limited&c, and must be used wisely.");
+            MessageSender.sendMsg(player, "&6--------------------------------------------------");
+            MessageSender.sendMsg(player, "&cType &e/regen info 2&c to continue.");
+        } else if (args[1].equalsIgnoreCase("2")) {
+            MessageSender.sendMsg(player, "&6--------------------------------------------------");
+            MessageSender.sendMsg(player, "&cYou can use this regenerative power in a &evariety of ways&c. ");
+            MessageSender.sendMsg(player, "&cA full list of the abilities available to you can be found with &e/regen ?&c.");
+            MessageSender.sendMsg(player, "&6--------------------------------------------------");
+            MessageSender.sendMsg(player, "&cEvery ability linked to regeneration has a different &eenergy cost&c. ");
+            MessageSender.sendMsg(player, "&cYou can view these costs with &e/regen costs&c.");
+            MessageSender.sendMsg(player, "&6--------------------------------------------------");
+        } else { //some weird argument
+            MessageSender.sendPrefixMsg(player, "&cI'm not sure what you mean by &e" + args[1]);
+            MessageSender.sendPrefixMsg(player, "Type &e/regen ?&c for more options.");
+        }
     }
 
     public void showRegenCosts(Player player) {
         rsm.setScoreboardForPlayer(player, RScoreboardManager.SidebarType.REGEN_COSTS);
-        MessageSender.sendPrefixMsg(player, "&cType &e/regen info&c for an explanation of this.");
     }
 
     /**
@@ -124,9 +140,9 @@ public class RegenCommandExecutor implements CommandExecutor {
      */
     public void showCommandList(Player player) {
         MessageSender.sendMsg(player, "&6---------- &cRegeneration: &eCommands &6----------");
-        MessageSender.sendMsg(player, "&c/regen &c- View your regeneration stats.");
+        MessageSender.sendMsg(player, "&c/regen &c- View your regeneration status.");
         MessageSender.sendMsg(player, "&c/regen &einfo &c- View information about how regeneration works.");
-        MessageSender.sendMsg(player, "&c/regen &ecosts &c- View the costs of regeneration.");
+        MessageSender.sendMsg(player, "&c/regen &ecosts &c- View the costs of your various regenerative abilities.");
         MessageSender.sendMsg(player, "&6--------------------------------------------------");
         MessageSender.sendMsg(player, "&c/regen &eforce &c- Force yourself to regenerate.");
         MessageSender.sendMsg(player, "&c/regen &eblock &6<true|false> &c- Block or unblock regeneration.");
@@ -166,7 +182,7 @@ public class RegenCommandExecutor implements CommandExecutor {
         MessageSender.log(player.getName() + " forced regeneration");
 
         // --- END REGEN CHECKS ---
-        MessageSender.sendPrefixMsg(player, "&eYou used " + plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120) + " regeneration energy.");
+        MessageSender.sendPrefixMsg(player, "&cYou used &e" + plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120) + " &cregeneration energy.");
         rm.preRegen(player);
     }
 

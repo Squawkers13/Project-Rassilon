@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Doctor Squawk <Squawkers13@gmail.com>
+ * Copyright (c) 2016 Doctor Squawk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -11,7 +11,7 @@
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -27,13 +27,14 @@ import net.pekkit.projectrassilon.ProjectRassilon;
 import net.pekkit.projectrassilon.locale.MessageSender;
 import net.pekkit.projectrassilon.nms.BountifulHelper;
 import net.pekkit.projectrassilon.nms.HelperV1_8_R1;
-import net.pekkit.projectrassilon.nms.INMSHelper;
+import net.pekkit.projectrassilon.nms.InterfaceNMSHelper;
 import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,7 +44,7 @@ import java.util.regex.Pattern;
  */
 public class RassilonUtils {
 
-    private static INMSHelper nms;
+    private static InterfaceNMSHelper nms;
 
     public static final SimplifiedVersion getCurrentVersion(ProjectRassilon plugin) {
         Version server = getServerVersion(plugin.getServer().getVersion());
@@ -99,7 +100,7 @@ public class RassilonUtils {
     }
 
 
-    public static INMSHelper getNMSHelper() {
+    public static InterfaceNMSHelper getNMSHelper() {
         if (nms == null) {
             String version = Bukkit.getServer().getClass().getPackage().getName().replace(".",  ",").split(",")[3];
 
@@ -148,4 +149,29 @@ public class RassilonUtils {
         }
     }
 
+    /**
+     * Random quotes for bountiful regeneration
+     */
+    private static String[] quotes = {
+            "&c&oOh yes, thank you. Keep warm.", //First Doctor
+            "&c&oNo, you can’t do this to me! No!... No!... No!......", //Second Doctor
+            "&c&oA tear, Sarah Jane? No, don't cry. While there's life, there's...", //Third Doctor
+            "&c&oIt's the end... But the moment has been prepared for.", //Fourth Doctor
+            "&c&oAdric?", //Fifth Doctor
+            "&c&oI hope the footprint I leave will be... light, but apposite...", //Sixth Doctor
+            "&c&oI gotta stop... him!", //Seventh Doctor
+            "&c&oPhysician, heal thyself.", //Eighth Doctor
+            "&c&oI hope the ears are a bit less conspicuous this time.", //War Doctor
+            "&c&oAbsolutely fantastic. And you know what? So was I!", //Ninth Doctor
+            "&c&oI don't want to go.", //Tenth Doctor
+            "&c&oI will always remember when the Doctor was me." //Eleventh Doctor
+    };
+
+    /**
+     * Random quote selector
+     * @return a random quote
+     */
+    public static String getRegenerationQuote() {
+        return quotes[new Random().nextInt(quotes.length)]; //why am I allowed to do new Random() in a static method?
+    }
 }

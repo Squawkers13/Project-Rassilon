@@ -10,11 +10,16 @@
     * API hook
 * Heal other players
 
-##Release version `2.0`
+##Upcoming version `2.1+`
 * Regen "malfunctions"
+* Self-heal
+* Heal other players
+* Suppress needs for food/oxygen for a short time
+* Give yourself a quick burst of energy (haste)
 * Pause RegenTasks when player logs out
 * Find way to clear regeneration effects if server restarted
 * Player preferences menu (/regen prefs)
+* "Appeal" for a new cycle (regen shop)
 * Fix bugs
 * Add documentation
 * Respect config settings
@@ -31,14 +36,10 @@
     * Bio and environment scanners
     * Console change? (Destructive)
     * Disable regeneration while "arched" (fob watch)
-* mcMMO integration
+* mcMMO integration (if warranted)
     * Randomize skills on regeneration?
     * Custom skills for Time Lords?
 * LibsDisguises integration
     * Player skin changes on regeneration?
-* Different visual effects on regeneration
+* Different visual effects on regeneration?
     * Classic White
-    
-##Future version `3.0`
-* SpongeAPI support?
-    * This adds Forge compatibility
