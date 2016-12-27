@@ -26,8 +26,6 @@ package net.pekkit.projectrassilon;
 
 import net.pekkit.projectrassilon.api.TimelordData;
 import net.pekkit.projectrassilon.data.TimelordDataHandler;
-import net.pekkit.projectrassilon.util.RassilonUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
@@ -126,6 +124,12 @@ public class RScoreboardManager {
 
         Score regenCost = objective.getScore(ChatColor.YELLOW + "Cost to Regenerate");
         regenCost.setScore(plugin.getConfig(REGEN).getInt("regen.costs.regenCost"));
+
+        Score healPerHP = objective.getScore(ChatColor.YELLOW + "Heal Cost Per HP");
+        healPerHP.setScore(plugin.getConfig(REGEN).getInt("regen.costs.healCostPerHP"));
+
+        Score maxHealCost = objective.getScore(ChatColor.YELLOW + "Maximum Heal Cost");
+        maxHealCost.setScore(plugin.getConfig(REGEN).getInt("regen.costs.maximumHealCost"));
 
         return scoreboard;
     }

@@ -144,7 +144,7 @@ public class RegenManager {
         BukkitTask postRegenEffects = new TaskPostRegenEffects(plugin, player.getUniqueId()).runTaskTimer(plugin, 100L, 100L);
         p.setRegenTask(RegenTask.POST_REGEN_EFFECTS, postRegenEffects.getTaskId());
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200), 2, true), true);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200), 2, true), true);
         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200), 3, true), true);
         player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200) / 2, 4, true), true);
         player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200) / 2, 1, true), true);
@@ -152,6 +152,29 @@ public class RegenManager {
 
         BukkitTask regenEnd = new TaskRegenEnd(tdh, player).runTaskLater(plugin, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200));
         p.setRegenTask(RegenTask.REGEN_END, regenEnd.getTaskId());
+    }
+
+    public void beginSelfHeal(Player player, int amount, int cost) {
+        // --- BEGIN SELF HEALING ---
+        //SelfHealEvent event = new SelfHealEvent(player); TODO call event
+        //plugin.getServer().getPluginManager().callEvent(event);
+
+        //if (event.isCancelled()) {
+            //return; //Do not regenerate - event cancelled
+       // }
+
+        RTimelordData p = tdh.getTimelordData(player);
+
+        p.setRegenEnergy(p.getRegenEnergy() - cost); //deduct cost
+
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, amount * 20, 1, true), true);
+
+        //Play the "regeneration" sound to all players nearby, but at a higher pitch and lower volume
+        player.getLocation().getWorld().playSound(player.getLocation(), "regeneration", 1.0f, 1.3f);
+
+        BukkitTask selfHeal = new TaskSelfHeal(tdh, player, amount).runTaskTimer(plugin, 20L, 20L); //TODO these values
+        p.setRegenTask(RegenTask.SELF_HEAL, selfHeal.getTaskId());
+        // --- END SELF HEALING ---
     }
 
 }

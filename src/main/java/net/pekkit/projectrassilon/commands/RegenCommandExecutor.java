@@ -94,6 +94,8 @@ public class RegenCommandExecutor implements CommandExecutor {
             forceRegen(player);
         } else if (args[0].equalsIgnoreCase("block")) {
             modifyRegenBlock(player, args);
+        } else if (args[0].equalsIgnoreCase("heal")) {
+            healWithRegenEnergy(player, args);
         } else { //invalid args
             MessageSender.sendPrefixMsg(sender, "&cI'm not sure what you mean by &e" + args[0]);
             MessageSender.sendPrefixMsg(sender, "Type &e/regen ?&c for more options.");
@@ -128,6 +130,8 @@ public class RegenCommandExecutor implements CommandExecutor {
         MessageSender.sendMsg(player, "&6--------------------------------------------------");
         MessageSender.sendMsg(player, "&c/regen &eforce &c- Force yourself to regenerate.");
         MessageSender.sendMsg(player, "&c/regen &eblock &6<true|false> &c- Block or unblock regeneration.");
+        MessageSender.sendMsg(player, "&c/regen &eheal &6[amount] &c- Heal yourself with regeneration energy.");
+        //MessageSender.sendMsg(player, "&c/regen &eheal &6[player] &6[amount] &c- Heal a nearby player with regeneration energy."); TODO
         MessageSender.sendMsg(player, "&6--------------------------------------------------");
 
     }
@@ -181,7 +185,7 @@ public class RegenCommandExecutor implements CommandExecutor {
                 data.setRegenBlock(false);
                 MessageSender.sendPrefixMsg(player, "&eYou are no longer blocking your next regeneration.");
             }
-        } else if (args.length == 2) { //Additional parameters specified
+        } else if (args.length > 2) { //Additional parameters specified - now ignores extra arguments
             if (!args[1].equalsIgnoreCase("true") && !args[1].equalsIgnoreCase("false")) {
                 MessageSender.sendPrefixMsg(player, "&cBlock your next regeneration.");
                 MessageSender.sendPrefixMsg(player, "&c/regen &eblock &6<true|false>");
@@ -193,5 +197,64 @@ public class RegenCommandExecutor implements CommandExecutor {
                 MessageSender.sendPrefixMsg(player, "&eYou are no longer blocking your next regeneration.");
             }
         }
+    }
+
+    private void healWithRegenEnergy(Player player, String[] args) { //TODO PREVIEW-2 -> convert to healing any player, not just yourself
+        if (!player.hasPermission("projectrassilon.regen.heal.self")) {
+            MessageSender.sendPrefixMsg(player, "&cYou don't have permission to do that!");
+            return;
+        }
+        if (args.length < 2) {
+            MessageSender.sendMsg(player, "Heal yourself with regeneration energy.");
+            MessageSender.sendMsg(player, "&c/regen &eheal &6[amount]");
+            return;
+        }
+
+        int amount;
+
+        try {
+            amount = Integer.valueOf(args[1]);
+        } catch (NumberFormatException e) {
+            MessageSender.sendMsg(player, "&cThe amount must be an integer!");
+            return;
+        }
+
+        if (amount <= 0) {
+            MessageSender.sendMsg(player, "&cThe amount must be positive!");
+            return;
+        }
+
+        int cost = amount * plugin.getConfig(REGEN).getInt("regen.costs.healCostPerHP", 5);
+        boolean costLimited = false;
+
+        if (cost > plugin.getConfig(REGEN).getInt("regen.costs.maximumHealCost", 100)) {
+            cost = plugin.getConfig(REGEN).getInt("regen.costs.maximumHealCost", 100);
+            amount = cost / plugin.getConfig(REGEN).getInt("regen.costs.healCostPerHP", 5); //Use the maximum amomvn aunt
+            costLimited = true;
+        }
+
+        if (tdh.getTimelordData(player).getRegenEnergy() <= cost) { //Not enough regeneration energy
+            MessageSender.sendMsg(player, "&cYou don't have enough regeneration energy!");
+            return;
+        }
+        if (tdh.getTimelordData(player).getRegenStatus()) { //Already regenerating
+            MessageSender.sendMsg(player, "&cYou're currently regenerating!");
+            return;
+        }
+        if (player.getGameMode().equals(GameMode.CREATIVE)) {
+            MessageSender.sendPrefixMsg(player, "&cYou cannot regenerate in creative mode!");
+            return;
+        }
+        if (player.getLocation().getY() <= 0) { //In the void
+            MessageSender.sendMsg(player, "&cYou cannot regenerate in the void!");
+            return;
+        }
+
+        // END HEAL CHECKS
+        MessageSender.sendMsg(player, "&eYou used " + cost + " regeneration energy.");
+        if (costLimited) {
+            MessageSender.sendMsg(player, "&cLimiting health regain as to not exceed the maximum.");
+        }
+        rm.beginSelfHeal(player, amount, cost);
     }
 }

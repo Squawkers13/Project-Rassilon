@@ -44,7 +44,7 @@ import static org.bukkit.util.StringUtil.copyPartialMatches;
 public class RegenCommandTabCompleter implements TabCompleter {
 
     private final ProjectRassilon plugin;
-    List<String> ROOT_SUBS = ImmutableList.of("help", "info" , "costs", "force", "block");
+    List<String> ROOT_SUBS = ImmutableList.of("help", "info" , "costs", "force", "block", "heal");
 
     /**
      *

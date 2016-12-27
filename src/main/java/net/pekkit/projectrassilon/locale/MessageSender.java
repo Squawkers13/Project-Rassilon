@@ -98,7 +98,7 @@ public class MessageSender {
      * @since 1.2
      */
     public static void sendPluginMsg(CommandSender sender, String msg, boolean pagination) {
-        sendMsg(sender, "&c[&6ProjectRassilon&c] " + msg, pagination);
+        sendMsg(sender, "&c[&6ProjectRassilon&c] &r" + msg, pagination);
     }
 
     /**
@@ -127,7 +127,7 @@ public class MessageSender {
      * @since 1.2
      */
     public static void logStackTrace(Exception ex) {
-        log("&4An error occured: &f" + ex.getLocalizedMessage());
+        log("&4An error occurred: &f" + ex.getLocalizedMessage());
         log(ex.getClass().getName());
         for (StackTraceElement ee : ex.getStackTrace()) {
             log("   at " + ee.getClassName() + ":" + ee.getMethodName() + " (line " + ee.getLineNumber() + ")");

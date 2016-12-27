@@ -1,19 +1,26 @@
 #TODO
 
-##Preview version `2.0-preview-1`
-* Fix bugs
-* Add documentation
-* Respect config settings
-* Release preview build
-* Distribute resource pack (GitHub?)
+##Preview version `2.0-preview-2`
+* Self-heal
+    * Iron out bugs
+    * Tune values
+    * Cooldown
+    * /pr command
+    * Event
+    * API hook
+* Heal other players
 
 ##Release version `2.0`
 * Regen "malfunctions"
 * Pause RegenTasks when player logs out
 * Find way to clear regeneration effects if server restarted
-* Self-heal
-* Heal other players
 * Player preferences menu (/regen prefs)
+* Fix bugs
+* Add documentation
+* Respect config settings
+* The RegenTasks don't respect the length settings!
+* Distribute resource pack (GitHub?)
+* No invincibility when regenerating
 
 ##Upcoming version `2.1+`
 * Don't reset regen energy on respawn if desired

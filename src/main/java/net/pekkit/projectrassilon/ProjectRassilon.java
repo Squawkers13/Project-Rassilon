@@ -82,10 +82,11 @@ public class ProjectRassilon extends JavaPlugin {
         for (RassilonUtils.ConfigurationFile cf: values()) {
             File f = new File(getDataFolder(), cf.getFileName());
 
-            if (!f.exists()) {
+            MessageSender.log("&cConfiguration is overwritten on preview builds!");
+            //if (!f.exists()) {
                 f.getParentFile().mkdirs();
                 RassilonUtils.copy(getResource(cf.getFileName()), f);
-            }
+            //}
 
             YamlConfiguration c = new YamlConfiguration();
             try {

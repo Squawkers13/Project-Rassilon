@@ -52,7 +52,9 @@ public enum RegenTask {
     
     REGEN_DELAY("regen_delay"),
     
-    POST_REGEN_DELAY("post_regen_delay");
+    POST_REGEN_DELAY("post_regen_delay"),
+
+    SELF_HEAL("self_heal");
     
     private final String columnName;
     

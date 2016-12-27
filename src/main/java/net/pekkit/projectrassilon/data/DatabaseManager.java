@@ -63,7 +63,7 @@ public class DatabaseManager {
         }
 
         try {
-            dbPath = "jdbc:sqlite:" + plugin.getDataFolder() + File.separator + "ProjectRassilon.db";
+            dbPath = "jdbc:sqlite:" + plugin.getDataFolder() + File.separator + "ProjectRassilon-PREVIEW-2.db";
             connection = DriverManager.getConnection(dbPath);
         } catch (SQLException ex) {
             MessageSender.logStackTrace(ex);

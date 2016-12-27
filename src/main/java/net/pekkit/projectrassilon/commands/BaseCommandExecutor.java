@@ -240,6 +240,7 @@ public class BaseCommandExecutor implements CommandExecutor {
         if (args.length < 2) {
             MessageSender.sendPrefixMsg(sender, "&cSet a Time Lord's regeneration block status.");
             MessageSender.sendPrefixMsg(sender, "&c/pr &eblock &6[player] <true|false>");
+            return;
         }
 
         OfflinePlayer player = plugin.getServer().getOfflinePlayer(args[1]);
