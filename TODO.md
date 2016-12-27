@@ -1,15 +1,10 @@
 #TODO
 
-##Preview version `2.0-preview-2`
+##Next version `2.0`
 * Fix bugs
 * Add documentation
 * Respect config settings
 * Distribute resource pack (GitHub?)
-
-##Release version `2.0`
-* Fix bugs
-* Add documentation
-* Respect config settings
 * Don't reset regen energy on respawn if desired
 * Pause RegenTasks when player logs out
 * Find way to clear regeneration effects if server restarted
@@ -19,7 +14,7 @@
 * Self-heal
 * Heal other players
 * Player preferences menu (/regen prefs)
-* :"Appeal" for a new cycle (regen shop)
+* "Appeal" for a new cycle (regen shop)
 * Destructive regen when gaining a new cycle
 * TARDIS integration
     * Zero Room cures negative effects
