@@ -35,7 +35,10 @@ import net.pekkit.projectrassilon.util.RegenTask;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionEffectTypeWrapper;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.util.List;
 
 import static net.pekkit.projectrassilon.util.RassilonUtils.ConfigurationFile.REGEN;
 import static org.bukkit.Bukkit.getScheduler;
@@ -67,6 +70,16 @@ public class RegenManager {
 
         p.setRegenStatus(true);
         player.setNoDamageTicks(100);
+        player.setInvulnerable(true);
+
+        for (String effect : plugin.getConfig(REGEN).getStringList("regen.effects.preRegenEffects")) {
+            String[] substrings = effect.split(":");
+
+            PotionEffectType effectType = PotionEffectType.getByName(substrings[0]);
+            int effectAmplifier = Integer.parseInt(substrings[1]);
+
+            player.addPotionEffect(new PotionEffect(effectType, plugin.getConfig(REGEN).getInt("regen.durations.preRegenLength", 100), effectAmplifier, true), true);
+        }
 
         BukkitTask preRegenEffects = new TaskPreRegenEffects(plugin, player.getUniqueId()).runTaskTimer(plugin, 20L, 20L);
         p.setRegenTask(RegenTask.PRE_REGEN_EFFECTS, preRegenEffects.getTaskId());
@@ -113,7 +126,14 @@ public class RegenManager {
 
         p.setRegenEnergy(regen);
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, plugin.getConfig(REGEN).getInt("regen.durations.regenLength", 150), 3, true), true);
+        for (String effect : plugin.getConfig(REGEN).getStringList("regen.effects.regenEffects")) {
+            String[] substrings = effect.split(":");
+
+            PotionEffectType effectType = PotionEffectType.getByName(substrings[0]);
+            int effectAmplifier = Integer.parseInt(substrings[1]);
+
+            player.addPotionEffect(new PotionEffect(effectType, plugin.getConfig(REGEN).getInt("regen.durations.regenLength", 150), effectAmplifier, true), true);
+        }
         // --- END REGENERATION ---
 
         BukkitTask postRegen = new TaskPostRegenDelay(tdh, this, player).runTaskLater(plugin, plugin.getConfig(REGEN).getInt("regen.durations.regenLength", 150));
@@ -136,6 +156,7 @@ public class RegenManager {
 
         player.setHealth(player.getMaxHealth());
 
+        player.setInvulnerable(false);
         player.setFallDistance(0);
         player.setFireTicks(1);
         
@@ -144,13 +165,18 @@ public class RegenManager {
         BukkitTask postRegenEffects = new TaskPostRegenEffects(plugin, player.getUniqueId()).runTaskTimer(plugin, 100L, 100L);
         p.setRegenTask(RegenTask.POST_REGEN_EFFECTS, postRegenEffects.getTaskId());
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200), 2, true), true);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200), 3, true), true);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200) / 2, 4, true), true);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200) / 2, 1, true), true);
+        for (String effect : plugin.getConfig(REGEN).getStringList("regen.effects.postRegenEffects")) {
+            String[] substrings = effect.split(":");
+            MessageSender.log(substrings[0]);
+
+            PotionEffectType effectType = PotionEffectType.getByName(substrings[0]);
+            int effectAmplifier = Integer.parseInt(substrings[1]);
+
+            player.addPotionEffect(new PotionEffect(effectType, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 6000), effectAmplifier, true), true);
+        }
         // --- END POST-REGENERATION ---
 
-        BukkitTask regenEnd = new TaskRegenEnd(tdh, player).runTaskLater(plugin, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 200));
+        BukkitTask regenEnd = new TaskRegenEnd(tdh, player).runTaskLater(plugin, plugin.getConfig(REGEN).getInt("regen.durations.postRegenLength", 6000));
         p.setRegenTask(RegenTask.REGEN_END, regenEnd.getTaskId());
     }
 

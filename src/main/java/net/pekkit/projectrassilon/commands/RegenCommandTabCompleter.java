@@ -38,16 +38,14 @@ import static com.google.common.collect.ImmutableList.of;
 import static org.bukkit.util.StringUtil.copyPartialMatches;
 
 /**
- *
  * @author Squawkers13
  */
 public class RegenCommandTabCompleter implements TabCompleter {
 
     private final ProjectRassilon plugin;
-    List<String> ROOT_SUBS = ImmutableList.of("help", "info" , "costs", "force", "block");
+    List<String> ROOT_SUBS = ImmutableList.of("help", "info", "costs", "force", "block");
 
     /**
-     *
      * @param instance
      */
     public RegenCommandTabCompleter(ProjectRassilon instance) {
@@ -55,7 +53,6 @@ public class RegenCommandTabCompleter implements TabCompleter {
     }
 
     /**
-     *
      * @param cs
      * @param cmnd
      * @param alias
@@ -65,8 +62,6 @@ public class RegenCommandTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmnd, String alias, String[] args) {
         // Remember that we can return null to default to online player name matching
-        String lastArg = args[args.length - 1];
-
         if (args.length <= 1) {
             List<String> part = partial(args[0], ROOT_SUBS);
             return (part.size() > 0) ? part : null;
@@ -74,14 +69,14 @@ public class RegenCommandTabCompleter implements TabCompleter {
             String sub = args[0];
             if (sub.equalsIgnoreCase("block")) {
                 return of("true", "false");
+            } else if (sub.equalsIgnoreCase("info")) {
+                return of("2");
             } else {
                 return of();
             }
         }
         return of();
     }
-
-
 
 
     private List<String> partial(String token, Collection<String> from) {

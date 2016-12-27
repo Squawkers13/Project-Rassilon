@@ -1,5 +1,5 @@
-# This is a beta version. Things will change without notice.
-# TODO Most of these setting probably don't work at this stage.
+# Project Rassilon v2.0
+# Created by Doctor Squawk
 core:
     # General plugin settings, not much to do here...
     general:
@@ -16,20 +16,6 @@ core:
         timelordHP: 40.0
         # Should the amount of regeneration energy a player has remain the same after respawning?
         energyPersists: false
-        # The chance (out of 100) for regeneration to "malfunction".
-        # More information about this setting can be found in regen.yml.
-        malfunctionChance: 20
-    tardis:
-        # Whether to remove certain (adverse) status effects from a regenerating player
-        # if they are in a TARDIS Zero Room. Requires eccentric_nz's TARDIS plugin!
-        # More information about this setting can be found in regen.yml
-        removeEffectsInZeroRoom: true
     # DO NOT TOUCH THIS!!!
     # This is essential to the survival of your configuration settings!
     configVersion: 1.0
-            
-    
-        
-    
-
-    

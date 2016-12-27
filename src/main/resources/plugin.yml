@@ -4,25 +4,24 @@ version: '${pom.version}'
 description: Become a Time Lord and regenerate!
 author: Doctor Squawk
 website: http://www.spigotmc.org/resources/project-rassilon.2051/
-softdepend: [Vault]
 commands:
     pr:
         aliases: [projectrassilon,projrassilon]
         description: Base command for Project Rassilon.
         view:
-            description: View a player's regneration info.
+            description: View a player's regneration status.
             permission: projectrassilon.pr.view
         set:
-            description: Set a player's regeneration count.
+            description: Set a player's regeneration energy.
             permission: projectrassilon.pr.set
         force:
             description: Force a player to regenerate.
             permission: projectrassilon.pr.force
         block:
-            description: Set a player's regeneration block.
+            description: Block a player's next regeneration.
             permission: projectrassilon.pr.block
         reload:
-            description: Reload the configuration .yml files.
+            description: Reload the configuration files.
             permission: projectrassilon.pr.reload
     regen:
         aliases: [regenerate]
@@ -35,22 +34,22 @@ commands:
             permission: projectrassilon.regen.block
 permissions:
     projectrassilon.pr.view:
-        description: View a player's regneration info.
+        description: View a player's regneration status.
         default: op
     projectrassilon.pr.set:
-        description: Set a player's regeneration count.
+        description: Set a player's regeneration energy.
         default: op
     projectrassilon.pr.force:
         description: Force a player to regenerate.
         default: op
     projectrassilon.pr.block:
-        description: Set a player's regeneration block.
+        description: Block a player's next regeneration.
         default: op
     projectrassilon.pr.reload:
         description: Reload the configuration.
         default: op
     projectrassilon.regen.timelord:
-        description: This player is a Time Lord, and can regenerate on death.
+        description: This player is a Time Lord, and can regenerate on death. All other regeneration permissions require this one.
         default: op
     projectrassilon.regen.force:
         description: Allows this player to force regeneration.

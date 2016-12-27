@@ -13,6 +13,8 @@
 * Regen "malfunctions"
 * Self-heal
 * Heal other players
+* Suppress needs for food/oxygen for a short time
+* Give yourself a quick burst of energy (haste)
 * Player preferences menu (/regen prefs)
 * "Appeal" for a new cycle (regen shop)
 * Destructive regen when gaining a new cycle

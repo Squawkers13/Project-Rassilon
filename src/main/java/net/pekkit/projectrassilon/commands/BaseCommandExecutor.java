@@ -142,7 +142,7 @@ public class BaseCommandExecutor implements CommandExecutor {
 
         OfflinePlayer player = plugin.getServer().getOfflinePlayer(args[1]);
         if (!player.hasPlayedBefore()) {
-            MessageSender.sendPrefixMsg(sender, "&cWe have no record of that Time Lord!");
+            MessageSender.sendPrefixMsg(sender, "&cWe have no record of that player!");
             return;
         }
 
