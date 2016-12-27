@@ -29,6 +29,7 @@ import net.pekkit.projectrassilon.data.TimelordDataHandler;
 import net.pekkit.projectrassilon.events.PostRegenEvent;
 import net.pekkit.projectrassilon.events.PreRegenEvent;
 import net.pekkit.projectrassilon.events.RegenEvent;
+import net.pekkit.projectrassilon.events.SelfHealEvent;
 import net.pekkit.projectrassilon.locale.MessageSender;
 import net.pekkit.projectrassilon.tasks.*;
 import net.pekkit.projectrassilon.util.RassilonUtils;
@@ -183,12 +184,12 @@ public class RegenManager {
 
     public void beginSelfHeal(Player player, int amount, int cost) {
         // --- BEGIN SELF HEALING ---
-        //SelfHealEvent event = new SelfHealEvent(player); TODO call event
-        //plugin.getServer().getPluginManager().callEvent(event);
+        SelfHealEvent event = new SelfHealEvent(player);
+        plugin.getServer().getPluginManager().callEvent(event);
 
-        //if (event.isCancelled()) {
-            //return; //Do not regenerate - event cancelled
-       // }
+        if (event.isCancelled()) {
+            return; //Do not regenerate - event cancelled
+       }
 
         RTimelordData p = tdh.getTimelordData(player);
 

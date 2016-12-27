@@ -215,7 +215,7 @@ public class RegenCommandExecutor implements CommandExecutor {
         }
     }
 
-    private void healWithRegenEnergy(Player player, String[] args) { //TODO PREVIEW-2 -> convert to healing any player, not just yourself
+    private void healWithRegenEnergy(Player player, String[] args) { //TODO 2.0 -> convert to healing any player, not just yourself
         if (!player.hasPermission("projectrassilon.regen.heal.self")) {
             MessageSender.sendPrefixMsg(player, "&cYou don't have permission to do that!");
             return;
@@ -245,7 +245,7 @@ public class RegenCommandExecutor implements CommandExecutor {
 
         if (cost > plugin.getConfig(REGEN).getInt("regen.costs.maximumHealCost", 100)) {
             cost = plugin.getConfig(REGEN).getInt("regen.costs.maximumHealCost", 100);
-            amount = cost / plugin.getConfig(REGEN).getInt("regen.costs.healCostPerHP", 5); //Use the maximum amomvn aunt
+            amount = cost / plugin.getConfig(REGEN).getInt("regen.costs.healCostPerHP", 5); //Use the maximum amount
             costLimited = true;
         }
 

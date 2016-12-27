@@ -6,30 +6,27 @@
     * Tune values
     * Cooldown
     * /pr command
-    * Event
-    * API hook
+    * API Event
+    * API Methods
 * Heal other players
 
-##Upcoming version `2.1+`
+##Release version `2.0`
 * Regen "malfunctions"
-* Self-heal
 * Heal other players
-* Suppress needs for food/oxygen for a short time
-* Give yourself a quick burst of energy (haste)
 * Pause RegenTasks when player logs out
 * Find way to clear regeneration effects if server restarted
 * Player preferences menu (/regen prefs)
-* "Appeal" for a new cycle (regen shop)
 * Fix bugs
 * Add documentation
 * Respect config settings
 * The RegenTasks don't respect the length settings!
 * Distribute resource pack (GitHub?)
-* No invincibility when regenerating
 
 ##Upcoming version `2.1+`
+* Suppress needs for food/oxygen for a short time
+* Give yourself a quick burst of energy (haste)
 * Don't reset regen energy on respawn if desired
-* Appeal for a new cycle (regen shop)
+* "Appeal" for a new cycle (regen shop)
 * Destructive regen when gaining a new cycle
 * TARDIS integration
     * Zero Room cures negative effects
