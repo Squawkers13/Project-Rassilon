@@ -58,7 +58,6 @@ public class Regenerator {
             return -1;
         }
         if (tdh.getTimelordData(player).getRegenBlock()) { //Blocking regeneration
-            tdh.getTimelordData(player).setRegenBlock(false);
             return -2;
         }
         if (tdh.getTimelordData(player).getRegenStatus()) { //Already regenerating

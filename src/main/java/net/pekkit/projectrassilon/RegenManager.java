@@ -117,7 +117,8 @@ public class RegenManager {
         }
 
         if (RassilonUtils.getCurrentVersion(plugin).getIndex() >= 2) { //Bountiful is enabled :)
-            RassilonUtils.getNMSHelper().sendTitle(player, "&6You have regenerated", "", 3, 7, 3);
+            RassilonUtils.getNMSHelper().sendTitle(player, "&6You have regenerated",
+                    RassilonUtils.getRegenerationQuote(), 3, 7, 3);
         } else {
             MessageSender.sendMsg(player, "&6You have regenerated");
         }

@@ -1,13 +1,10 @@
 #TODO
 
 ##Next version `2.0`
-* Fix bugs
-* Add documentation
-* Respect config settings
 * Distribute resource pack (GitHub?)
 * Don't reset regen energy on respawn if desired
-* Pause RegenTasks when player logs out
-* Find way to clear regeneration effects if server restarted
+* Pause RegenTasks when player logs out?
+* Find way to clear regeneration effects if server restarted?
 
 ##Upcoming version `2.1+`
 * Regen "malfunctions"

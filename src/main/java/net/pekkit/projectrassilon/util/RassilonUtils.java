@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -148,4 +149,29 @@ public class RassilonUtils {
         }
     }
 
+    /**
+     * Random quotes for bountiful regeneration
+     */
+    private static String[] quotes = {
+            "&c&oOh yes, thank you. Keep warm.", //First Doctor
+            "&c&oNo, you can’t do this to me! No!... No!... No!......", //Second Doctor
+            "&c&oA tear, Sarah Jane? No, don't cry. While there's life, there's...", //Third Doctor
+            "&c&oIt's the end... But the moment has been prepared for.", //Fourth Doctor
+            "&c&oAdric?", //Fifth Doctor
+            "&c&oI hope the footprint I leave will be... light, but apposite...", //Sixth Doctor
+            "&c&oI gotta stop... him!", //Seventh Doctor
+            "&c&oPhysician, heal thyself.", //Eighth Doctor
+            "&c&oI hope the ears are a bit less conspicuous this time.", //War Doctor
+            "&c&oAbsolutely fantastic. And you know what? So was I!", //Ninth Doctor
+            "&c&oI don't want to go.", //Tenth Doctor
+            "&c&oI will always remember when the Doctor was me." //Eleventh Doctor
+    };
+
+    /**
+     * Random quote selector
+     * @return a random quote
+     */
+    public static String getRegenerationQuote() {
+        return quotes[new Random().nextInt(quotes.length)]; //why am I allowed to do new Random() in a static method?
+    }
 }
