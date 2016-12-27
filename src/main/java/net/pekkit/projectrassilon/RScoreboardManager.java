@@ -120,16 +120,16 @@ public class RScoreboardManager {
         objective.setDisplayName(ChatColor.GOLD + "Energy Costs");
 
         Score startingEnergy = objective.getScore(ChatColor.YELLOW + "Starting Energy");
-        startingEnergy.setScore(plugin.getConfig(REGEN).getInt("regen.costs.startingEnergy"));
+        startingEnergy.setScore(plugin.getConfig(REGEN).getInt("regen.costs.startingEnergy", 1500));
 
         Score regenCost = objective.getScore(ChatColor.YELLOW + "Cost to Regenerate");
-        regenCost.setScore(plugin.getConfig(REGEN).getInt("regen.costs.regenCost"));
+        regenCost.setScore(plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120));
 
         Score healPerHP = objective.getScore(ChatColor.YELLOW + "Heal Cost Per HP");
-        healPerHP.setScore(plugin.getConfig(REGEN).getInt("regen.costs.healCostPerHP"));
+        healPerHP.setScore(plugin.getConfig(REGEN).getInt("regen.costs.healCostPerHP", 5));
 
         Score maxHealCost = objective.getScore(ChatColor.YELLOW + "Maximum Heal Cost");
-        maxHealCost.setScore(plugin.getConfig(REGEN).getInt("regen.costs.maximumHealCost"));
+        maxHealCost.setScore(plugin.getConfig(REGEN).getInt("regen.costs.maximumHealCost", 100));
 
         return scoreboard;
     }

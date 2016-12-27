@@ -25,6 +25,7 @@
 package net.pekkit.projectrassilon.tasks;
 
 import net.pekkit.projectrassilon.data.TimelordDataHandler;
+import net.pekkit.projectrassilon.locale.MessageSender;
 import net.pekkit.projectrassilon.util.RegenTask;
 import org.bukkit.Effect;
 import org.bukkit.entity.Player;
@@ -52,6 +53,10 @@ public class TaskSelfHeal extends BukkitRunnable {
             tdh.getTimelordData(player).setRegenTask(RegenTask.SELF_HEAL, 0);
             return;
         }
+
+        MessageSender.log(player.getHealth() + "");
+        MessageSender.log(player.getMaxHealth() + "");
+
 
         if (player.getHealth() == player.getMaxHealth()) { //At max? Stop healing
             cancel();

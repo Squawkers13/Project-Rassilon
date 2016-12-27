@@ -26,12 +26,21 @@ commands:
     regen:
         aliases: [regenerate]
         description: Become a Timelord and regenerate!
+        info:
+            description: View your regeneration status.
+            permission: projectrassilon.regen.timelord
+        costs:
+            description: View the costs of various regenerative abilities.
+            permission: projectrassilon.regen.timelord
         force:
             description: Force regeneration.
             permission: projectrassilon.regen.force
         block:
             description: Block your next regeneration.
             permission: projectrassilon.regen.block
+        heal:
+            description: Heal yourself with regeneration energy.
+            permission: projectrassilon.regen.heal.self
 permissions:
     projectrassilon.pr.view:
         description: View a player's regneration status.
@@ -56,4 +65,7 @@ permissions:
         default: op
     projectrassilon.regen.block:
         description: Allows this player to block their next regneration.
+        default: op
+    projectrassilon.regen.heal.self:
+        description: Allows this player to heal themself with regeneration energy.
         default: op

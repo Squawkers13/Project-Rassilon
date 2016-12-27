@@ -4,6 +4,8 @@ regen:
   costs:
     startingEnergy: 1500
     regenCost: 120
+    healCostPerHP: 5
+    maximumHealCost: 100
   durations:
     preRegenLength: 100
     regenLength: 150
