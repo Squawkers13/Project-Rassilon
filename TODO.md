@@ -6,13 +6,13 @@
     * Tune values
     * Cooldown
     * /pr command
-    * API Event
     * API Methods
+    * Should it be a potion effect or manual HP addition?
+    * ALSO, WHY SPEED?
 * Heal other players
 
 ##Release version `2.0`
 * Regen "malfunctions"
-* Heal other players
 * Pause RegenTasks when player logs out
 * Find way to clear regeneration effects if server restarted
 * Player preferences menu (/regen prefs)
