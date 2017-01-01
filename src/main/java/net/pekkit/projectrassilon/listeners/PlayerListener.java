@@ -161,7 +161,7 @@ public class PlayerListener implements Listener {
         }
 
         // Set new max health if applicable
-        if (event.getPlayer().hasPermission("projectrassilon.regen.timelord") && plugin.getConfig(CORE).getBoolean("core.regen.modifyTimelordHP", true)) {
+        if (event.getPlayer().hasPermission("projectrassilon.regen.twohearts") && plugin.getConfig(CORE).getBoolean("core.regen.modifyTimelordHP", true)) {
             event.getPlayer().setMaxHealth(plugin.getConfig(CORE).getDouble("core.regen.timelordHP", 40.0));
         }
 

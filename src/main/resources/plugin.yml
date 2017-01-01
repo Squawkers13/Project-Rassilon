@@ -57,6 +57,9 @@ permissions:
     projectrassilon.pr.reload:
         description: Reload the configuration.
         default: op
+    projectrassilon.regen.twohearts:
+        description: This player has two hearts, and is given a modified HP value.
+        default: op
     projectrassilon.regen.timelord:
         description: This player is a Time Lord, and can regenerate on death. All other regeneration permissions require this one.
         default: op
