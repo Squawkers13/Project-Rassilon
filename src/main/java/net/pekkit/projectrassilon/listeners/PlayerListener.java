@@ -101,7 +101,7 @@ public class PlayerListener implements Listener {
 
                     event.setCancelled(true);
                     // --- END REGEN CHECKS ---
-                    MessageSender.sendPrefixMsg(player, "& You used &e" + plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120) + " &cregeneration energy.");
+                    MessageSender.sendPrefixMsg(player, "You used &e" + plugin.getConfig(REGEN).getInt("regen.costs.regenCost", 120) + " &cregeneration energy.");
                     rm.preRegen(player);
 
                 }

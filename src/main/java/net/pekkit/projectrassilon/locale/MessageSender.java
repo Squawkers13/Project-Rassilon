@@ -26,7 +26,6 @@ package net.pekkit.projectrassilon.locale;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.util.ChatPaginator;
 
 import static org.bukkit.ChatColor.translateAlternateColorCodes;
 
