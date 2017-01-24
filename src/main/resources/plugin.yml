@@ -71,4 +71,4 @@ permissions:
         default: op
     projectrassilon.regen.heal.self:
         description: Allows this player to heal themself with regeneration energy.
-        default: op
+        default: false
