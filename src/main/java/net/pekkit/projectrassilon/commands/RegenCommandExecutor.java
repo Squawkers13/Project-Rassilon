@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2016 Doctor Squawk
+ * Copyright (c) 2017 Doctor Squawk
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -98,7 +98,7 @@ public class RegenCommandExecutor implements CommandExecutor {
             healWithRegenEnergy(player, args);
         } else { //invalid args
             MessageSender.sendPrefixMsg(sender, "&cI'm not sure what you mean by &e" + args[0]);
-            MessageSender.sendPrefixMsg(sender, "Type &e/regen ?&c for more options.");
+            MessageSender.sendPrefixMsg(sender, "Type &e/regen help&c for more options.");
         }
         return true;
     }
@@ -119,14 +119,14 @@ public class RegenCommandExecutor implements CommandExecutor {
         } else if (args[1].equalsIgnoreCase("2")) {
             MessageSender.sendMsg(player, "&6--------------------------------------------------");
             MessageSender.sendMsg(player, "&cYou can use this regenerative power in a &evariety of ways&c. ");
-            MessageSender.sendMsg(player, "&cA full list of the abilities available to you can be found with &e/regen ?&c.");
+            MessageSender.sendMsg(player, "&cA full list of the abilities available to you can be found with &e/regen help&c.");
             MessageSender.sendMsg(player, "&6--------------------------------------------------");
             MessageSender.sendMsg(player, "&cEvery ability linked to regeneration has a different &eenergy cost&c. ");
             MessageSender.sendMsg(player, "&cYou can view these costs with &e/regen costs&c.");
             MessageSender.sendMsg(player, "&6--------------------------------------------------");
         } else { //some weird argument
             MessageSender.sendPrefixMsg(player, "&cI'm not sure what you mean by &e" + args[1]);
-            MessageSender.sendPrefixMsg(player, "Type &e/regen ?&c for more options.");
+            MessageSender.sendPrefixMsg(player, "Type &e/regen help&c for more options.");
         }
     }
 
@@ -146,7 +146,7 @@ public class RegenCommandExecutor implements CommandExecutor {
         MessageSender.sendMsg(player, "&6--------------------------------------------------");
         MessageSender.sendMsg(player, "&c/regen &eforce &c- Force yourself to regenerate.");
         MessageSender.sendMsg(player, "&c/regen &eblock &6<true|false> &c- Block or unblock regeneration.");
-        MessageSender.sendMsg(player, "&c/regen &eheal &6[amount] &c- Heal yourself with regeneration energy.");
+        //MessageSender.sendMsg(player, "&c/regen &eheal &6[amount] &c- Heal yourself with regeneration energy.");
         //MessageSender.sendMsg(player, "&c/regen &eheal &6[player] &6[amount] &c- Heal a nearby player with regeneration energy."); TODO
         MessageSender.sendMsg(player, "&6--------------------------------------------------");
 
